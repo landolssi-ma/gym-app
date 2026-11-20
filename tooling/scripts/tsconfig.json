@@ -1,0 +1,6 @@
+{
+  "extends": "@workspace/typescript-config/library.json",
+  "compilerOptions": { "types": ["node"] },
+  "include": [".", "tests"],
+  "exclude": ["node_modules", "output"]
+}

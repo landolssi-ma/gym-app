@@ -1,0 +1,27 @@
+{
+  "name": "@workspace/auth",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./proxy": "./src/proxy.ts",
+    "./password": "./src/password.ts"
+  },
+  "dependencies": {
+    "@workspace/db": "workspace:*",
+    "@workspace/i18n": "workspace:*",
+    "better-auth": "1.7.7"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^10",
+    "typescript": "catalog:"
+  }
+}

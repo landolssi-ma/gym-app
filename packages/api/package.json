@@ -1,0 +1,35 @@
+{
+  "name": "@workspace/api",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./bootstrap": "./src/bootstrap.ts",
+    "./survey": "./src/survey.ts",
+    "./files": "./src/files.ts"
+  },
+  "dependencies": {
+    "@workspace/ai": "workspace:*",
+    "@workspace/auth": "workspace:*",
+    "@workspace/billing": "workspace:*",
+    "@workspace/core": "workspace:*",
+    "@workspace/db": "workspace:*",
+    "@workspace/jobs": "workspace:*",
+    "@workspace/mail": "workspace:*",
+    "@workspace/storage": "workspace:*",
+    "hono": "catalog:",
+    "inngest": "4.24.0",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^10",
+    "typescript": "catalog:"
+  }
+}

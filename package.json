@@ -1,0 +1,45 @@
+{
+  "name": "saas-starter-kit",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "typecheck": "turbo typecheck",
+    "test": "vitest run",
+    "test:db": "bash packages/db/tests/pg-test.sh .pg.test.",
+    "check:secrets": "tsx tooling/scripts/check-client-secrets.ts",
+    "bootstrap": "node tooling/scripts/bootstrap.mjs",
+    "secrets:deploy": "pnpm --filter web secrets:deploy",
+    "db:generate": "pnpm --filter @workspace/db db:generate",
+    "db:migrate": "pnpm --filter @workspace/db db:migrate",
+    "db:migrate:prod": "pnpm --filter @workspace/db db:migrate:prod",
+    "db:reset": "docker compose down -v postgres && pnpm bootstrap",
+    "db:seed": "tsx tooling/scripts/seed.ts",
+    "db:studio": "pnpm --filter @workspace/db db:studio",
+    "smoke": "node tooling/scripts/smoke.mjs --local",
+    "smoke:prod": "node tooling/scripts/smoke.mjs --env-file apps/web/.env.production",
+    "tunnel": "cloudflared tunnel --url http://localhost:5173 --http-host-header localhost:5173",
+    "billing:setup": "tsx tooling/scripts/billing-setup.ts",
+    "billing:simulate": "tsx tooling/scripts/billing-simulate.ts",
+    "billing:sign": "tsx tooling/scripts/billing-sign.ts"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "happy-dom": "20.14.6",
+    "prettier": "^3.9.9",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tsx": "4.23.15",
+    "turbo": "^2.11.7",
+    "typescript": "^5",
+    "vite": "catalog:",
+    "vitest": "5.0.4"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=22.12"
+  }
+}

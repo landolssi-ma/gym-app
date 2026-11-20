@@ -1,0 +1,24 @@
+# Local dev's Neon stand-in (same postgres:16 the DB tests use), avoiding a remote Neon round trip
+# per request during local dev. Not used in prod -- prod goes through Hyperdrive to Neon.
+# Host port 5433, not 5432, so it can run next to another project's local Postgres.
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Lets `docker compose up --wait` (pnpm bootstrap) return only once Postgres accepts connections.
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  postgres_data:

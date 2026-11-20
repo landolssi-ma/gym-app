@@ -1,0 +1,28 @@
+{
+  "name": "@workspace/cms",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "cms:setup": "tsx --env-file=../../apps/web/.env scripts/setup-schema.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^10",
+    "typescript": "catalog:",
+    "next": "16.4.0"
+  },
+  "dependencies": {
+    "basehub": "9.6.0",
+    "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "next": "16.4.0"
+  }
+}

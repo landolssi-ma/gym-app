@@ -1,0 +1,46 @@
+schema: spec-driven
+
+# Project context (optional)
+# Add only constraints that should guide OpenSpec artifacts and workflows.
+# Include constraints an agent cannot infer by reading the code.
+# Keep general project documentation and discoverable codebase facts out.
+# Example:
+#   context: |
+#     Designs and tasks must cover Windows, macOS, and Linux
+#     Write all artifacts in Spanish
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
+
+context: |
+  Every change lives on its own git branch `change/<change-name>`, created from an up-to-date `main` before the change's first file (including its proposal) is written. If that branch already exists, switch to it. Never write change files or code for a change on `main` or on another change's branch.
+
+operations:
+  apply:
+    guidance:
+      - Before writing or editing any code, load the repo-local ponytail skill (.claude/skills/ponytail/SKILL.md, a link to .agents/skills/ponytail) and apply it at ultra level to all code written in this change. Use this repo's copy, never a global or personal ponytail skill.
+      - Before the first task, make sure the current branch is `change/<change-name>`; switch to it or create it from `main` if not.
+      - "Commit once per task, right after the task's verification passes and its checkbox is ticked in tasks.md. Stage only the files that task touched plus tasks.md (never `git add -A`). Message is `<change-name> <task-id>: <task description, shortened to one line>`. A task whose verification fails is not committed or ticked."
+      - Never push, merge into `main`, or open a pull request unless the user asks.
+  archive:
+    guidance:
+      - "Archive on the change's branch `change/<change-name>`, then commit the synced main specs and the moved change folder together as `<change-name>: archive and sync specs`. Do not merge into `main` or push unless the user asks."

@@ -1,0 +1,49 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "deploy:manual": "vite build && wrangler deploy",
+    "secrets:deploy": "wrangler secret bulk .env.production",
+    "lint": "eslint --max-warnings 0",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "typecheck": "wrangler types && tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.105.0",
+    "@workspace/api": "workspace:*",
+    "@workspace/auth": "workspace:*",
+    "@workspace/billing": "workspace:*",
+    "@workspace/cms": "workspace:*",
+    "@workspace/i18n": "workspace:*",
+    "@workspace/seo": "workspace:*",
+    "@workspace/ui": "workspace:*",
+    "hono": "catalog:",
+    "next": "16.4.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-server-dom-webpack": "19.3.1",
+    "vinext": "1.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.64.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "6.1.2",
+    "@vitejs/plugin-rsc": "0.5.37",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^10",
+    "happy-dom": "20.14.6",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "5.0.4",
+    "wrangler": "4.151.0"
+  }
+}

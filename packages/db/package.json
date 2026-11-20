@@ -1,0 +1,32 @@
+{
+  "name": "@workspace/db",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate --name baseline",
+    "db:migrate": "drizzle-kit migrate",
+    "db:migrate:prod": "drizzle-kit migrate --config drizzle.config.production.ts",
+    "db:sql": "node --env-file-if-exists=../../apps/web/.env src/sql.mjs",
+    "db:studio": "drizzle-kit studio --host 127.0.0.1"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/testing.ts"
+  },
+  "dependencies": {
+    "drizzle-orm": "0.45.4",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/pg": "8.23.1",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "drizzle-kit": "0.31.11",
+    "eslint": "^10",
+    "typescript": "catalog:"
+  }
+}
