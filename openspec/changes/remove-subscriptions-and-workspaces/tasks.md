@@ -10,7 +10,7 @@
 
 - [x] 2.1 Replace `requireActiveOrg` and organization variables with authenticated account ownership on product routes, and verify cross-account ids return 404.
 - [x] 2.2 Remove workspace, team, invitation, organization, billing, entitlement and checkout routes, and verify the route table and unauthorized-route tests pass.
-- [ ] 2.3 Remove workspace and subscription jobs and provider events, and verify the Inngest function inventory contains no removed workspace or billing functions.
+- [x] 2.3 Remove workspace and subscription jobs and provider events, and verify the Inngest function inventory contains no removed workspace or billing functions.
 
 ## 3. Authentication and account deletion
 
