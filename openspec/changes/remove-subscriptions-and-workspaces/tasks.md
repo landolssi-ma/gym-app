@@ -4,7 +4,7 @@
 
 - [x] 1.1 Export or archive existing workspace and subscription data, then replace the baseline schema with account-owned gym data and remove organization, membership, invitation, subscription and entitlement tables; verify migrations and ownership tests against a throwaway database.
 - [x] 1.2 Remove workspace, team, invitation, billing, webhook, checkout and entitlement routes and packages; verify route-table and API tests no longer expose those endpoints.
-- [ ] 1.3 Remove workspace/session variables, organization guards and subscription checks from Hono, Better Auth integration and account flows; verify account API routes and account deletion work without organization ownership.
+- [x] 1.3 Remove workspace/session variables, organization guards and subscription checks from Hono, Better Auth integration and account flows; verify account API routes and account deletion work without organization ownership.
 
 ## 2. Rework first-launch and signed-in access
 
