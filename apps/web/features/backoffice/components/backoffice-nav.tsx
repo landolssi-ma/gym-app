@@ -4,14 +4,12 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { t } from "@workspace/i18n"
-import { Building2Icon, CreditCardIcon, FileTextIcon, UsersIcon } from "@workspace/ui/components/icons"
+import { FileTextIcon, UsersIcon } from "@workspace/ui/components/icons"
 import { cn } from "@workspace/ui/lib/utils"
 
 // The backoffice's own chrome: it shares nothing with the customer app's sidebar.
 const NAV_ITEMS = [
   { href: "/admin", match: "/admin/users", label: t("backoffice.navUsers"), Icon: UsersIcon },
-  { href: "/admin/organizations", match: "/admin/organizations", label: t("backoffice.navWorkspaces"), Icon: Building2Icon },
-  { href: "/admin/subscriptions", match: "/admin/subscriptions", label: t("backoffice.navSubscriptions"), Icon: CreditCardIcon },
   { href: "/admin/audit", match: "/admin/audit", label: t("backoffice.navAudit"), Icon: FileTextIcon },
 ] as const
 

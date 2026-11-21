@@ -16,7 +16,7 @@ const dayStart = (d: string) => (d ? new Date(`${d}T00:00:00`).toISOString() : u
 const dayEnd = (d: string) => (d ? new Date(new Date(`${d}T00:00:00`).getTime() + 86_400_000).toISOString() : undefined)
 
 export function AuditLog({ initial }: { initial: AuditFilters }) {
-  const [form, setForm] = useState({ organizationId: initial.organizationId ?? "", actorId: initial.actorId ?? "", action: initial.action ?? "", from: "", to: "" })
+  const [form, setForm] = useState({ actorId: initial.actorId ?? "", action: initial.action ?? "", from: "", to: "" })
   const [filters, setFilters] = useState<AuditFilters>(initial)
   const field = (key: keyof typeof form, label: string, type = "text") => (
     <div className="flex flex-col gap-1">
@@ -30,10 +30,9 @@ export function AuditLog({ initial }: { initial: AuditFilters }) {
         className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:items-end"
         onSubmit={(e) => {
           e.preventDefault()
-          setFilters({ organizationId: form.organizationId.trim(), actorId: form.actorId.trim(), action: form.action.trim(), from: dayStart(form.from), to: dayEnd(form.to) })
+          setFilters({ actorId: form.actorId.trim(), action: form.action.trim(), from: dayStart(form.from), to: dayEnd(form.to) })
         }}
       >
-        {field("organizationId", t("backoffice.colWorkspace"))}
         {field("actorId", t("backoffice.colActor"))}
         {field("action", t("backoffice.colAction"))}
         {field("from", t("backoffice.from"), "date")}
@@ -53,7 +52,7 @@ function AuditPage({ filters }: { filters: AuditFilters }) {
   return (
     <>
       <DataTable
-        headers={[t("backoffice.colTime"), t("backoffice.colAction"), t("backoffice.colActor"), t("backoffice.colWorkspace"), t("backoffice.colTarget"), t("backoffice.colDetails")]}
+        headers={[t("backoffice.colTime"), t("backoffice.colAction"), t("backoffice.colActor"), t("backoffice.colTarget"), t("backoffice.colDetails")]}
         empty={t("backoffice.auditEmpty")}
         rows={data.entries.map((e) => ({
           key: e.id,
@@ -70,13 +69,6 @@ function AuditPage({ filters }: { filters: AuditFilters }) {
                 </span>
               )}
             </span>,
-            e.organizationId ? (
-              <Link key="w" href={`/admin/organizations/${e.organizationId}`} className="font-mono text-xs hover:underline">
-                {e.organizationId}
-              </Link>
-            ) : (
-              "—"
-            ),
             <span key="g" className="text-xs">{e.targetType} <span className="font-mono">{e.targetId}</span></span>,
             <code key="m" className="text-xs break-all">{Object.keys(e.metadata).length ? JSON.stringify(e.metadata) : ""}</code>,
           ],

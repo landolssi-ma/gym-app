@@ -1,7 +1,5 @@
 "use client"
 
-import Link from "next/link"
-
 import { startImpersonation } from "@workspace/auth/client"
 import { t } from "@workspace/i18n"
 import { Badge } from "@workspace/ui/components/badge"
@@ -60,26 +58,6 @@ export function UserDetail({ userId }: { userId: string }) {
           </div>
         )}
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("backoffice.workspaces")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <DataTable
-            headers={[t("backoffice.colName"), t("backoffice.colRole")]}
-            empty={t("backoffice.noWorkspaces")}
-            rows={u.organizations.map((o) => ({
-              key: o.id,
-              cells: [
-                <Link key="n" href={`/admin/organizations/${o.id}`} className="font-medium hover:underline">
-                  {o.name}
-                </Link>,
-                o.role,
-              ],
-            }))}
-          />
-        </CardContent>
-      </Card>
       <Card>
         <CardHeader>
           <CardTitle>{t("backoffice.sessions")}</CardTitle>

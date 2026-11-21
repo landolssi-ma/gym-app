@@ -12,9 +12,6 @@ const api = () => apiClient(apiFetch)
 
 export const useUsers = (q: string, cursor?: string) => useSuspenseQuery({ queryKey: backofficeKeys.list("users", { q }, cursor), queryFn: () => s.getUsers(api(), q, cursor) })
 export const useUser = (id: string) => useSuspenseQuery({ queryKey: backofficeKeys.detail("users", id), queryFn: () => s.getUser(api(), id) })
-export const useOrganizations = (q: string, cursor?: string) => useSuspenseQuery({ queryKey: backofficeKeys.list("organizations", { q }, cursor), queryFn: () => s.getOrganizations(api(), q, cursor) })
-export const useOrganization = (id: string) => useSuspenseQuery({ queryKey: backofficeKeys.detail("organizations", id), queryFn: () => s.getOrganization(api(), id) })
-export const useSubscriptions = (f: s.SubscriptionFilters, cursor?: string) => useSuspenseQuery({ queryKey: backofficeKeys.list("subscriptions", f, cursor), queryFn: () => s.getSubscriptions(api(), f, cursor) })
 export const useAuditLog = (f: s.AuditFilters, cursor?: string) => useSuspenseQuery({ queryKey: backofficeKeys.list("audit", f, cursor), queryFn: () => s.getAuditLog(api(), f, cursor) })
 
 // Every action refetches all backoffice data: lists, details and the audit log all show its effect.
@@ -25,7 +22,5 @@ export function useBackofficeActions() {
     ban: useMutation({ mutationFn: (v: { id: string; reason: string; expiresAt: string | null }) => s.banUser(api(), v.id, v.reason, v.expiresAt), onSuccess }),
     unban: useMutation({ mutationFn: (id: string) => s.unbanUser(api(), id), onSuccess }),
     revokeSession: useMutation({ mutationFn: (v: { id: string; sessionId: string }) => s.revokeSession(api(), v.id, v.sessionId), onSuccess }),
-    suspend: useMutation({ mutationFn: (v: { id: string; reason: string }) => s.suspendOrganization(api(), v.id, v.reason), onSuccess }),
-    unsuspend: useMutation({ mutationFn: (id: string) => s.unsuspendOrganization(api(), id), onSuccess }),
   }
 }

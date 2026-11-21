@@ -15,8 +15,7 @@ const set = <T extends Record<string, string | undefined>>(q: T) => Object.fromE
 
 const admin = (api: Client) => api.api.admin
 
-export type AuditFilters = { organizationId?: string; actorId?: string; action?: string; from?: string; to?: string }
-export type SubscriptionFilters = { status?: "trialing" | "active" | "past_due" | "canceled" | "ended"; plan?: string }
+export type AuditFilters = { actorId?: string; action?: string; from?: string; to?: string }
 
 export const getUsers = (api: Client, q?: string, cursor?: string) => admin(api).users.$get({ query: set({ q, cursor }) }).then(checked)
 export const getUser = (api: Client, id: string) => admin(api).users[":id"].$get({ param: { id } }).then(checked)
@@ -24,13 +23,6 @@ export const banUser = (api: Client, id: string, reason: string, expiresAt: stri
 export const unbanUser = (api: Client, id: string) => admin(api).users[":id"].unban.$post({ param: { id } }).then(checked)
 export const revokeSession = (api: Client, id: string, sessionId: string) => admin(api).users[":id"].sessions[":sessionId"].revoke.$post({ param: { id, sessionId } }).then(checked)
 
-export const getOrganizations = (api: Client, q?: string, cursor?: string) => admin(api).organizations.$get({ query: set({ q, cursor }) }).then(checked)
-export const getOrganization = (api: Client, id: string) => admin(api).organizations[":id"].$get({ param: { id } }).then(checked)
-export const suspendOrganization = (api: Client, id: string, reason: string) => admin(api).organizations[":id"].suspend.$post({ param: { id }, json: { reason } }).then(checked)
-export const unsuspendOrganization = (api: Client, id: string) => admin(api).organizations[":id"].unsuspend.$post({ param: { id } }).then(checked)
-
-export const getSubscriptions = (api: Client, f: SubscriptionFilters, cursor?: string) => admin(api).subscriptions.$get({ query: set({ ...f, cursor }) }).then(checked)
 export const getAuditLog = (api: Client, f: AuditFilters, cursor?: string) => admin(api).audit.$get({ query: set({ ...f, cursor }) }).then(checked)
 
 export type UserDetail = Awaited<ReturnType<typeof getUser>>
-export type OrganizationDetail = Awaited<ReturnType<typeof getOrganization>>

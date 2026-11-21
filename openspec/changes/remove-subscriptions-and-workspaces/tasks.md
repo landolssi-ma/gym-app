@@ -22,7 +22,7 @@
 
 - [x] 4.1 Remove workspace switcher, team, workspace settings and billing navigation, and verify the shell shows only account and product destinations.
 - [x] 4.2 Remove workspace, team and billing pages and features, and verify no app route renders removed navigation or plan context.
-- [ ] 4.3 Update i18n keys and shell copy, and verify missing workspace/billing text keys fail no longer and `pnpm typecheck` passes.
+- [x] 4.3 Update i18n keys and shell copy, and verify missing workspace/billing text keys fail no longer and `pnpm typecheck` passes.
 
 ## 5. Marketing and backoffice
 
