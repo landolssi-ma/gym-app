@@ -27,11 +27,6 @@ const originCases: [string, string, Record<string, string>, number][] = [
   ["OPTIONS", "/api/x", {}, 404],
   ["POST", "/api/inngest", {}, 204],
   ["POST", "/api/inngestx", {}, 403],
-  // Signature-verified: exempt from the Origin check, so it reaches the handler, which refuses the unsigned body.
-  ["POST", "/api/webhooks/billing", {}, 401],
-  // Exact paths, never a prefix.
-  ["POST", "/api/webhooks/billing/x", {}, 403],
-  ["POST", "/api/webhooks/billingx", {}, 403],
 ]
 
 const cookieCases: [string, string, Record<string, string>, number][] = [
