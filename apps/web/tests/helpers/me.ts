@@ -6,6 +6,7 @@ export function meBody(over: Partial<Me> = {}): Me {
     isAdmin: false,
     impersonating: false,
     hasPassword: false,
+    profileComplete: true,
     ...over,
   }
 }

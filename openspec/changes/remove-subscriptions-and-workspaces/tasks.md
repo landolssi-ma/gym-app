@@ -8,7 +8,7 @@
 
 ## 2. Rework first-launch and signed-in access
 
-- [ ] 2.1 Preserve the gym profile as the sole first-launch step and make post-sign-in routing account-first; verify incomplete profiles gate the app and completed profiles reach their requested path or dashboard.
+- [x] 2.1 Preserve the gym profile as the sole first-launch step and make post-sign-in routing account-first; verify incomplete profiles gate the app and completed profiles reach their requested path or dashboard.
 - [ ] 2.2 Remove workspace switcher, team, billing and plan navigation from the shell and user menu; verify profile, security and direct app navigation remain accessible.
 - [ ] 2.3 Remove billing, pricing, plans and checkout pages from app and public navigation; verify those URLs are no longer public or redirected to removed product assumptions.
 

@@ -17,6 +17,7 @@ export default async function ShellLayout({ children }: { children: React.ReactN
     if (!(await isSignedInFresh())) redirect("/sign-in")
     throw new Error(`GET /api/me failed: ${result.status}`)
   }
+  if (!result.data.profileComplete) redirect("/onboarding")
   return (
     <div className="flex min-h-dvh bg-card">
       <aside className="sticky top-0 hidden h-dvh w-(--sidebar-width) shrink-0 flex-col gap-5 overflow-y-auto border-r border-border-strong bg-sidebar px-3 py-4 xl:flex">
