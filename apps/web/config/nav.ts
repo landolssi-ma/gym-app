@@ -1,5 +1,5 @@
 import type { Messages } from "@workspace/i18n"
-import { FolderIcon, LayoutDashboardIcon, SettingsIcon, ShieldIcon, UserIcon } from "@workspace/ui/components/icons"
+import { LayoutDashboardIcon, SettingsIcon, ShieldIcon, UserIcon } from "@workspace/ui/components/icons"
 
 export type NavItem = {
   href: string
@@ -10,7 +10,6 @@ export type NavItem = {
 // The sidebar and the mobile sheet. A product's own pages go here.
 export const NAV: NavItem[] = [
   { href: "/dashboard", label: "nav.dashboard", Icon: LayoutDashboardIcon },
-  { href: "/projects", label: "nav.projects", Icon: FolderIcon },
 ]
 
 // The user menu, and the settings block of the mobile sheet.
