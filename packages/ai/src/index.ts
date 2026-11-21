@@ -37,7 +37,7 @@ export function createAi(c: AiConfig, provider: (model: string) => LanguageModel
       // metered call never costs three requests.
       const r = await generateText({ model: provider(model), instructions: call.instructions, prompt: call.prompt, output, maxRetries: 0, timeout: AI_TIMEOUT_MS })
       const usage = { model, tokensIn: r.usage.inputTokens ?? 0, tokensOut: r.usage.outputTokens ?? 0 }
-      // Counts only: prompts and answers hold workspace data.
+      // Counts only: prompts and answers hold account data.
       c.log.info("ai_call", { ...usage, ms: Date.now() - started })
       return { r, usage }
     } catch (err) {

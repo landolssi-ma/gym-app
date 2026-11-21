@@ -13,12 +13,12 @@ export const files = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    // Random, so it cannot be guessed from the id, name or workspace.
+    // Random, so it cannot be guessed from the id or name.
     key: text("key").notNull(),
     name: text("name").notNull(),
     contentType: text("content_type").notNull(),
     size: integer("size").notNull(),
-    // What the upload is for (avatar, logo, attachment): decides the confirm step's side effects.
+    // What the upload is for (avatar or attachment): decides the confirm step's side effects.
     purpose: text("purpose").notNull(),
     visibility: text("visibility").$type<"private" | "public">().notNull(),
     status: text("status").$type<"pending" | "ready">().notNull().default("pending"),

@@ -18,13 +18,9 @@ const valid = {
   INNGEST_DEV: "0",
   INNGEST_EVENT_KEY: "test",
   INNGEST_SIGNING_KEY: "test",
-  BILLING_API_KEY: "test",
-  BILLING_WEBHOOK_SECRET: "whsec_dGVzdA==",
-  BILLING_TEST_MODE: "1",
   CMS_PROVIDER: "basehub",
   CMS_API_KEY: "cms-read-token",
   CMS_API_URL: "https://cms.test/graphql",
-  BILLING_PRODUCT_IDS: JSON.stringify({ "starter:month": "a", "starter:year": "b", "pro:month": "c", "pro:year": "d", "business:month": "e", "business:year": "f" }),
 }
 
 async function load(extra: Record<string, string>) {

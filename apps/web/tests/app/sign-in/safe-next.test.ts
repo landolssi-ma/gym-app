@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import { safeNext } from "../../../app/sign-in/safe-next"
 
-const accepted = ["/dashboard", "/projects", "/admin", "/", "/projects?tab=archived", "/team/accept/abc123", "/projects/abc123?x=1", "/team/accept/3f2b8c1e-9d4a-4e7b-8c2f-1a6d5e9b0c47"]
+const accepted = ["/dashboard", "/projects", "/admin", "/", "/projects?tab=archived", "/projects/abc123?x=1"]
 const normalized = [
   ["/a/../admin", "/admin"],
   ["/./projects", "/projects"],

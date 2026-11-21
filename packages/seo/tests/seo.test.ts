@@ -52,8 +52,8 @@ describe("structured data", () => {
       { "@type": "ListItem", position: 2, name: "Blog", item: "https://app.test/blog" },
     ])
   })
-  test("no Product builder", () => {
-    expect(Object.keys(seo).filter((k) => /product/i.test(k))).toEqual([])
+  test("does not expose product offers", () => {
+    expect(seo).not.toHaveProperty("buildOffersJsonLd")
   })
 })
 
@@ -70,14 +70,8 @@ describe("sitemap", () => {
   })
 })
 
-describe("site-wide and pricing structured data", () => {
+describe("site-wide structured data", () => {
   test("website", () => {
     expect(seo.buildWebsiteJsonLd()).toEqual({ "@context": "https://schema.org", "@type": "WebSite", name: "Acme", url: "https://app.test/" })
-  })
-
-  test("one offer per plan and interval with its price", () => {
-    const ld = seo.buildOffersJsonLd([{ name: "Pro monthly", priceUsd: 79, interval: "month" }, { name: "Pro yearly", priceUsd: 790, interval: "year" }])
-    expect(ld.offers).toHaveLength(2)
-    expect(ld.offers[1]).toMatchObject({ "@type": "Offer", price: "790.00", priceCurrency: "USD", priceSpecification: { unitCode: "ANN" } })
   })
 })

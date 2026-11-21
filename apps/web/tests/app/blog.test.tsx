@@ -17,7 +17,7 @@ describe("Blog index", () => {
     const html = await renderServer(<BlogPage />)
     expect(html.match(/data-article-card/g)).toHaveLength(CMS.articles.length)
     for (const a of CMS.articles) expect(html).toContain(`href="/blog/${a.slug}"`)
-    for (const topic of ["Guides", "Teams"]) expect(html.match(new RegExp(`aria-pressed="false"[^>]*>${topic}<`, "g"))).toHaveLength(1)
+    for (const topic of ["Guides", "Projects"]) expect(html.match(new RegExp(`aria-pressed="false"[^>]*>${topic}<`, "g"))).toHaveLength(1)
     expect(html).toContain('"@type":"BreadcrumbList"')
   })
 

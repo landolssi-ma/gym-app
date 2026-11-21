@@ -27,10 +27,10 @@ afterEach(async () => {
   vi.unstubAllGlobals()
 })
 
-const render = (purpose: "avatar" | "logo" = "avatar") =>
+const render = () =>
   m.render(
     <QueryClientProvider client={client}>
-      <ImageUpload purpose={purpose} name="Ada" image={null} />
+      <ImageUpload name="Ada" image={null} />
     </QueryClientProvider>,
   )
 

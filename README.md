@@ -1,6 +1,6 @@
 # SaaS starter kit
 
-A starter for SaaS products on Cloudflare: auth, workspaces, billing, emails, app shell, marketing site and admin. See [AGENTS.md](AGENTS.md) for the stack and conventions.
+A starter for single-account SaaS products on Cloudflare: authentication, account-owned data, email, an app shell, a marketing site and platform administration. See [AGENTS.md](AGENTS.md) for the stack and conventions.
 
 ## Quickstart
 
@@ -16,21 +16,17 @@ pnpm dev
 
 Local emails are sent to MailCatcher: open http://localhost:1080. SMTP listens on port `1025` and the HTTP-to-SMTP relay on port `8025`.
 
-Sign in at `/sign-in` as one of the seeded people: `owner@example.com` (owner of a trialing and a paid workspace), `member@example.com` or `admin@example.com` (platform admin, `/admin`). The password is in [`tooling/scripts/seed.ts`](tooling/scripts/seed.ts), or use the email code: in development emails are not sent but logged to the `pnpm dev` output, code and links included.
+Sign in at `/sign-in` as `owner@example.com`, `member@example.com` or `admin@example.com` (platform admin, `/admin`). The password is in [`tooling/scripts/seed.ts`](tooling/scripts/seed.ts), or use the email code: in development emails are not sent but logged to the `pnpm dev` output, code and links included. Successful sign-in opens the dashboard directly.
 
-To try the funnel as a new customer, sign up with any email, answer the survey and pick a plan. Without Dodo keys the checkout cannot open; simulate the provider's webhook instead:
+Run `pnpm test`, `pnpm test:db`, `pnpm lint` and `pnpm typecheck` to check the project.
 
-```
-pnpm billing:simulate subscription.active --org <workspace-id>
-```
+What runs locally without any account: authentication (email code and password), account-owned projects, emails (logged), and marketing pages that need no CMS. What needs your own keys: Google sign-in, file uploads (an R2 bucket, below), the blog, changelog and legal pages (BaseHub, below), analytics (PostHog) and AI (a Vercel AI Gateway key). Every key is listed and explained in [`apps/web/.env.example`](apps/web/.env.example).
 
-The workspace id is in the URL of `/admin/organizations` (sign in as the admin) or in the `pnpm dev` log. Then `pnpm test`, `pnpm test:db`, `pnpm lint` and `pnpm typecheck` run the checks.
-
-What runs locally without any account: auth (email code and password), workspaces, billing through `billing:simulate`, emails (logged), the marketing pages that need no CMS. What needs your own keys: Google sign-in, real checkout (Dodo test keys, then `pnpm billing:setup --mode test --url <origin>`), file uploads (an R2 bucket, below), the blog, changelog and legal pages (BaseHub, below) analytics (PostHog) and AI (a Vercel AI Gateway key). Every key is listed and explained in [`apps/web/.env.example`](apps/web/.env.example).
+When migrating a legacy deployment, follow the [data export instructions](docs/migrations/remove-workspaces.md) before applying the schema migration.
 
 ## Marketing content (BaseHub)
 
-The blog, changelog and legal pages (privacy, terms) come from a [BaseHub](https://basehub.com) repository. The landing, pricing, help and contact pages need nothing from it. Until a collection has entries, its page shows an empty state.
+The blog, changelog and legal pages (privacy, terms) come from a [BaseHub](https://basehub.com) repository. The landing, help and contact pages need nothing from it. Until a collection has entries, its page shows an empty state.
 
 1. Create a BaseHub account and an empty repository.
 2. In the repository's **Connect** panel, create a Read token and an Admin token. Put them in `apps/web/.env`:
@@ -63,4 +59,4 @@ Uploads go from the browser straight to the bucket through short-lived signed UR
 ]
 ```
 
-Use your `APP_ORIGIN` (add your local `APP_ORIGIN` too if local dev uses this bucket). Keep the bucket private: private files are read through signed links, and avatars and logos through the app's `/media` route. `pnpm smoke:prod` checks the rule and fails without it.
+Use your `APP_ORIGIN` (add your local `APP_ORIGIN` too if local dev uses this bucket). Keep the bucket private: private files are read through signed links, and avatars through the app's `/media` route. `pnpm smoke:prod` checks the rule and fails without it.

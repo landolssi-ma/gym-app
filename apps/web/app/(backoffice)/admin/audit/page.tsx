@@ -4,7 +4,7 @@ import { Skeleton } from "@workspace/ui/components/skeleton"
 import { FeatureBoundary } from "@/components/feature-error"
 import { AuditLog } from "@/features/backoffice"
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ organizationId?: string; actorId?: string; action?: string }> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ actorId?: string; action?: string }> }) {
   const { actorId, action } = await searchParams
   return (
     <>

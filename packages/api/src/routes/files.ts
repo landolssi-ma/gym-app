@@ -30,7 +30,7 @@ async function fileAtUrl(deps: Deps, userId: string | null, url: string | null) 
   return f && (userId === null || f.userId === userId) ? f : null
 }
 
-// Points the user's avatar or the workspace's logo at the new file, then deletes the one it replaced.
+// Points the user's avatar at the new file, then deletes the one it replaced.
 async function applyPurpose(deps: Deps, f: FileRow, userId: string) {
   const url = deps.storage.publicUrl(f.key)
   if (f.purpose === "avatar") {

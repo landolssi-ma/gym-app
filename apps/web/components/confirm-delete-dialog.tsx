@@ -61,10 +61,10 @@ export function ConfirmDeleteDialog({ trigger, title, body, confirmLabel, value,
           )}
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel>{t("billing.keepIt")}</AlertDialogCancel>
+          <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
           <AlertDialogAction variant="destructive" disabled={typed !== value || pending} onClick={confirm}>
             {pending && <Spinner />}
-            {t("billing.confirmDelete")}
+            {t("common.delete")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

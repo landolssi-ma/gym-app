@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest"
 import { decryptCredentials, encryptCredentials } from "../src/credentials"
 
 const key = btoa("a".repeat(32))
-const context = { userId: "owner", organizationId: "org", purpose: "webhook" }
+const context = { userId: "owner", purpose: "webhook" }
 const credentials = { accountId: "acct_123", apiToken: "private-test-token" }
 
 describe("integration credentials", () => {
@@ -17,9 +17,9 @@ describe("integration credentials", () => {
     expect(await decryptCredentials(a, key, context)).toEqual(credentials)
   })
 
-  it("rejects tampering, wrong keys, row substitution, and unknown versions", async () => {
+  it("rejects tampering, mismatched context, wrong keys, and unknown versions", async () => {
     const envelope = await encryptCredentials(credentials, key, context)
-    for (const field of ["userId", "organizationId", "purpose"] as const) {
+    for (const field of ["userId", "purpose"] as const) {
       await expect(decryptCredentials(envelope, key, { ...context, [field]: "other" })).rejects.toThrow("invalid_credentials_envelope")
     }
     await expect(decryptCredentials(envelope, btoa("b".repeat(32)), context)).rejects.toThrow("invalid_credentials_envelope")

@@ -9,7 +9,7 @@ const STATS = [
     unit: t("marketing.stat1Unit"),
     body: t("marketing.stat1Body"),
     source: t("marketing.stat1Source"),
-    href: "/pricing",
+    href: "/blog",
   },
   {
     value: t("marketing.stat2Value"),

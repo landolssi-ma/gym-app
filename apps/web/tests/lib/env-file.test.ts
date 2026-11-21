@@ -27,13 +27,13 @@ describe("upsertEnvFile", () => {
   it("applies updates against a real temp file, idempotently on a second call", () => {
     const dir = mkdtempSync(join(tmpdir(), "env-file-"))
     const path = join(dir, ".env")
-    writeFileSync(path, "# keep me\nBILLING_API_KEY=old-key\nUNRELATED=keep\n")
+    writeFileSync(path, "# keep me\nOLD_KEY=old-key\nUNRELATED=keep\n")
 
-    upsertEnvFile(path, { BILLING_PRODUCT_STARTER: "pdt_1" })
+    upsertEnvFile(path, { APP_ORIGIN: "https://app.test" })
     const first = readFileSync(path, "utf8")
-    expect(first).toBe("# keep me\nBILLING_API_KEY=old-key\nUNRELATED=keep\nBILLING_PRODUCT_STARTER=pdt_1\n")
+    expect(first).toBe("# keep me\nOLD_KEY=old-key\nUNRELATED=keep\nAPP_ORIGIN=https://app.test\n")
 
-    upsertEnvFile(path, { BILLING_PRODUCT_STARTER: "pdt_1" })
+    upsertEnvFile(path, { APP_ORIGIN: "https://app.test" })
     const second = readFileSync(path, "utf8")
     expect(second).toBe(first)
   })

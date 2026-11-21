@@ -18,9 +18,8 @@ export const noDuplicateAuthCookies = (): MiddlewareHandler<AppEnv> => async (c,
   await next()
 }
 
-// hono/csrf is not used: it skips application/json bodies. Inngest and billing webhook requests
-// are signature-verified instead. Listed as exact fixed paths, never a prefix, so no other path is
-// ever accidentally exempted.
+// hono/csrf is not used: it skips application/json bodies. Inngest requests are signature-verified
+// instead. Listed as an exact fixed path, never a prefix, so no other path is accidentally exempted.
 const ORIGIN_EXEMPT = new Set(["/api/inngest"])
 
 export const exactOrigin = (): MiddlewareHandler<AppEnv> => async (c, next) => {

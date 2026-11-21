@@ -1,9 +1,8 @@
 import { index, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core"
 
-// The audit trail of security actions. Written in the transaction of the action it
-// records; no route edits or deletes a row. organization_id is null for platform-wide actions (a
-// ban), and the row goes when its workspace is purged. Actor ids are plain text, not foreign keys,
-// so the history outlives a deleted account.
+// The audit trail of security actions. Written in the transaction of the action it records; no
+// route edits or deletes a row. Actor ids are plain text, not foreign keys, so history outlives a
+// deleted account.
 export const auditLogs = pgTable(
   "audit_logs",
   {

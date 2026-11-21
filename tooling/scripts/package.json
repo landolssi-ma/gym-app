@@ -10,7 +10,6 @@
   "dependencies": {
     "@workspace/api": "workspace:*",
     "@workspace/auth": "workspace:*",
-    "@workspace/billing": "workspace:*",
     "@workspace/db": "workspace:*"
   },
   "devDependencies": {

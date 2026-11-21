@@ -34,7 +34,7 @@ try {
   await db
     .insert(projects)
     .values([
-      { id: "00000000-0000-4000-8000-00000000a001", userId: "seed-owner", name: "Website relaunch", description: "New marketing site and pricing page.", createdBy: "seed-owner" },
+      { id: "00000000-0000-4000-8000-00000000a001", userId: "seed-owner", name: "Website relaunch", description: "New marketing site and help pages.", createdBy: "seed-owner" },
       { id: "00000000-0000-4000-8000-00000000a002", userId: "seed-member", name: "Customer onboarding", description: "Shorter first-run flow.", createdBy: "seed-member" },
       { id: "00000000-0000-4000-8000-00000000a003", userId: "seed-owner", name: "First project", createdBy: "seed-owner" },
     ])

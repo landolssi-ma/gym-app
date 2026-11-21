@@ -25,7 +25,7 @@ export const requireUser: MiddlewareHandler<GuardEnv> = async (c, next) => {
   await next()
 }
 
-// For actions that change credentials, sessions, membership, billing or account existence.
+// For actions that change credentials, sessions or account existence.
 export const forbidWhileImpersonating: MiddlewareHandler<GuardEnv> = async (c, next) => {
   if (c.var.deps.auth.isImpersonating(c.var.session)) return c.json({ error: "impersonating" }, 403)
   await next()

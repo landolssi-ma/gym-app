@@ -6,7 +6,7 @@ import {
 } from "@workspace/ui/components/accordion"
 import { cn } from "@workspace/ui/lib/utils"
 
-// The homepage uses framed rows; the pricing FAQ keeps the compact shared treatment.
+// The homepage uses framed rows; other FAQs keep the compact shared treatment.
 export function FaqAccordion({
   items,
   variant = "plain",

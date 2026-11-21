@@ -1,7 +1,6 @@
 import { integer, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core"
 
-// Fixed-window counters shared by every Worker instance. Keyed by subject ("user:<id>" or
-// "ip:<hash>"), never by workspace, so it is a global table.
+// Fixed-window counters shared by every Worker instance, keyed by user or hashed IP.
 export const rateLimits = pgTable(
   "rate_limits",
   {

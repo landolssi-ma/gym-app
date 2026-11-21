@@ -10,13 +10,11 @@
   "exports": {
     ".": "./src/index.ts",
     "./bootstrap": "./src/bootstrap.ts",
-    "./survey": "./src/survey.ts",
     "./files": "./src/files.ts"
   },
   "dependencies": {
     "@workspace/ai": "workspace:*",
     "@workspace/auth": "workspace:*",
-    "@workspace/billing": "workspace:*",
     "@workspace/core": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/jobs": "workspace:*",

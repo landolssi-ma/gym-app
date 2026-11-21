@@ -17,14 +17,14 @@ const article = (slug: string, title: string, category: string): Article => ({
 
 // What the Cms API returns, in the shapes packages/cms parses the provider's content into.
 export const CMS = {
-  articles: [article("getting-started", "Getting started", "Guides"), article("inviting-your-team", "Inviting your team", "Teams"), article("choosing-a-plan", "Choosing a plan", "Guides")],
+  articles: [article("getting-started", "Getting started", "Guides"), article("organizing-work", "Organizing your work", "Projects"), article("writing-a-brief", "Writing a product brief", "Guides")],
   changelog: [
-    { date: "2026-11-02", title: "Yearly plans", body: ["Every plan can now be paid yearly."] },
-    { date: "2026-10-15", title: "Team roles", body: ["Invite admins who can manage members."] },
+    { date: "2026-11-02", title: "Project updates", body: ["Projects now include an updated summary."] },
+    { date: "2026-10-15", title: "Profile settings", body: ["Update your profile and account details."] },
   ] satisfies ChangelogEntry[],
   legal: [
     { kind: "privacy", sections: [{ id: "data", heading: "Data we collect", paragraphs: ["Your name and email."] }] },
-    { kind: "terms", sections: [{ id: "use", heading: "Using the product", paragraphs: ["Use it lawfully."] }, { id: "billing", heading: "Billing", paragraphs: ["Plans renew until canceled."] }] },
+    { kind: "terms", sections: [{ id: "use", heading: "Using the product", paragraphs: ["Use it lawfully."] }, { id: "account", heading: "Your account", paragraphs: ["Keep your sign-in details secure."] }] },
   ] satisfies LegalDocument[],
 }
 

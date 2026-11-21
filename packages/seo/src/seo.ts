@@ -15,7 +15,6 @@ export type ArticleJsonLdInput = {
   datePublished?: string
   dateModified?: string
 }
-export type Offer = { name: string; priceUsd: number; interval: "month" | "year" }
 export type FaqItem = { question: string; answer: string }
 export type Crumb = { name: string; path: string }
 
@@ -51,21 +50,6 @@ export function createSeo(config: SeoConfig) {
     }),
     buildOrganizationJsonLd: () => ({ "@context": "https://schema.org", ...organization }),
     buildWebsiteJsonLd: () => ({ "@context": "https://schema.org", "@type": "WebSite", name: siteName, url: url("/") }),
-    // One offer per plan and interval, at the prices the pricing page shows.
-    buildOffersJsonLd: (offers: readonly Offer[]) => ({
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: siteName,
-      brand: organization,
-      offers: offers.map((o) => ({
-        "@type": "Offer",
-        name: o.name,
-        price: o.priceUsd.toFixed(2),
-        priceCurrency: "USD",
-        priceSpecification: { "@type": "UnitPriceSpecification", price: o.priceUsd.toFixed(2), priceCurrency: "USD", unitCode: o.interval === "month" ? "MON" : "ANN" },
-        url: url("/pricing"),
-      })),
-    }),
     buildBreadcrumbListJsonLd: (crumbs: readonly Crumb[]) => ({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",

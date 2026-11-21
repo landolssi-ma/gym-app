@@ -24,8 +24,7 @@ export function createPgApp(overrides: Partial<Deps> = {}) {
     sendPasswordReset: async ({ email, url }) => void links.push({ kind: "reset", email, url }),
     onUserVerified: async ({ id }) => void verified.push(id),
   })
-  // Invitation emails come from the team route through deps.mail.
-  const mail = { send: async (template: string, email: string, data: Record<string, unknown>) => void (template === "teamInvite" && links.push({ kind: "invite", email, url: String(data.acceptUrl) })) }
+  const mail = { send: async () => {} }
   const deps = fakeDeps({ db, auth, mail: mail as never, ...overrides })
   const app = createApi(() => deps)
   // Random per instance: Better Auth's rate-limit table is shared by every test file in a run.

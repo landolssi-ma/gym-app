@@ -32,11 +32,11 @@ describe("robots", () => {
 
 describe("page metadata", () => {
   it("sets a branded title, canonical URL and large-image link preview tags", () => {
-    const m = publicMetadata("/pricing", "Pricing", "Plans and prices")
-    expect(m.title).toBe("Pricing · Acme")
-    expect(m.alternates?.canonical).toBe("/pricing")
-    expect(m.openGraph).toMatchObject({ title: "Pricing", description: "Plans and prices", url: "/pricing", siteName: "Acme" })
-    expect(m.twitter).toMatchObject({ card: "summary_large_image", title: "Pricing" })
+    const m = publicMetadata("/help", "Help", "Get help")
+    expect(m.title).toBe("Help · Acme")
+    expect(m.alternates?.canonical).toBe("/help")
+    expect(m.openGraph).toMatchObject({ title: "Help", description: "Get help", url: "/help", siteName: "Acme" })
+    expect(m.twitter).toMatchObject({ card: "summary_large_image", title: "Help" })
   })
 })
 

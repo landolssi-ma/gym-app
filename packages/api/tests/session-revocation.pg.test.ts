@@ -118,10 +118,9 @@ describe.skipIf(!TEST_PG_URL)("revoked and banned sessions against real Postgres
     expect((await me(fresh)).status).toBe(200)
   })
 
-  test("Better Auth admin and organization endpoints outside the allowlist stay closed", async () => {
+  test("Better Auth admin endpoints outside the allowlist stay closed", async () => {
     const jar = await t.signIn(t.email("closed"))
     expect((await t.call("/api/auth/admin/list-users", { cookie: jar })).status).toBe(404)
-    expect((await t.call("/api/auth/organization/delete", { method: "POST", body: {}, cookie: jar })).status).toBe(404)
   })
 
   // Measures the added cost of reading every session from the database (no cookie cache).

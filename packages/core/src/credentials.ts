@@ -1,4 +1,4 @@
-export type CredentialContext = { userId: string; organizationId: string; purpose: string }
+export type CredentialContext = { userId: string; purpose: string }
 export type CredentialEnvelope = { v: 1; iv: string; ciphertext: string }
 
 const encode = (bytes: Uint8Array) => btoa(String.fromCharCode(...bytes))
@@ -11,7 +11,7 @@ async function importKey(key: string) {
 }
 
 const aad = (context: CredentialContext) =>
-  new TextEncoder().encode(JSON.stringify([context.userId, context.organizationId, context.purpose]))
+  new TextEncoder().encode(JSON.stringify([context.userId, context.purpose]))
 
 export async function encryptCredentials(value: unknown, key: string, context: CredentialContext): Promise<string> {
   const iv = crypto.getRandomValues(new Uint8Array(12))

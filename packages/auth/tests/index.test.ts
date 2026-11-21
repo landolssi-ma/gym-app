@@ -73,12 +73,6 @@ test("Google is offered only when configured", () => {
   expect(createBetterAuth({ ...cfg, google: undefined }).options.socialProviders).toEqual({})
 })
 
-test("organization plugin: owner, admin and member roles; self-serve creation off", () => {
-  const o = plugin<{ roles: Record<string, unknown>; allowUserToCreateOrganization: boolean }>("organization")?.options
-  expect(Object.keys(o?.roles ?? {}).sort()).toEqual(["admin", "member", "owner"])
-  expect(o?.allowUserToCreateOrganization).toBe(false)
-})
-
 test("impersonation lasts at most 1 hour", () => {
   expect(plugin<Record<string, unknown>>("admin")?.options).toMatchObject({ impersonationSessionDuration: 3600 })
 })
@@ -97,9 +91,6 @@ test("$context resolves with no schema mismatch and server-owned fields stay inp
   const { tables } = await createBetterAuth(cfg).$context
   expect(tables.user?.fields.role?.input).toBe(false)
   expect(tables.user?.fields.banned?.input).toBe(false)
-  expect(tables.user?.fields.lastActiveOrganizationId?.input).toBe(false)
-  expect(tables.organization?.fields.suspended?.input).toBe(false)
-  expect(tables.organization?.fields.noTrial?.input).toBe(false)
 })
 
 describe("createAuth", () => {
@@ -107,24 +98,14 @@ describe("createAuth", () => {
     expect(Object.keys(createAuth(cfg)).sort()).toEqual(
       [
         "banUser",
-        "createOrganization",
-        "getActiveOrganization",
         "getSession",
         "handleRequest",
         "hasRole",
         "isImpersonating",
-        "leaveOrganization",
-        "listMembers",
-        "removeMember",
-        "setMemberRole",
-        "transferOwnership",
-        "listOrganizations",
         "listUserSessions",
         "revokeAllSessions",
         "revokeImpersonationSessions",
         "revokeSession",
-        "setActiveOrganization",
-        "softDeleteOrganization",
         "unbanUser",
       ].sort(),
     )

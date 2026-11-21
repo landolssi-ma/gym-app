@@ -1,8 +1,7 @@
 # Add a background job
 
 Jobs run on Inngest. Use one when work should not block a request (sending many emails, cleaning up
-storage) or when product code should react to a starter event (`user.created`,
-`organization.created`, `organization.deleted`, `billing/subscription.changed`) without editing
+storage) or when product code should react to a starter event such as `user.created` without editing
 starter routes.
 
 ## 1. Add an event (only if you send a new one)
@@ -13,7 +12,7 @@ there, or the wrong payload, fails `pnpm typecheck`.
 ```ts
 export type Events = {
   // ...
-  "projects/exported": { organizationId: string; fileId: string }
+  "projects/exported": { userId: string; projectId: string; fileId: string }
 }
 ```
 
@@ -21,7 +20,7 @@ Send it from a route after the write is committed. The third argument is a dedup
 sent twice within 24 hours runs functions once.
 
 ```ts
-await c.var.deps.jobs.send("projects/exported", { organizationId, fileId }, `projects/exported:${fileId}`)
+await c.var.deps.jobs.send("projects/exported", { userId, projectId, fileId }, `projects/exported:${fileId}`)
 ```
 
 ## 2. Define the function

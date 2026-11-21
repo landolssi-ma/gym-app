@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from "vitest"
 import { writeAudit } from "../src/audit"
 
 describe("account audit entries", () => {
-  test("writes a session action without workspace or billing fields", async () => {
+  test("writes a session security action", async () => {
     const insert = vi.fn(() => ({ values: vi.fn(async () => undefined) }))
     await writeAudit({ insert } as never, { actorId: "admin", impersonatorId: null, ip: "127.0.0.1" }, {
       action: "session.revoked",

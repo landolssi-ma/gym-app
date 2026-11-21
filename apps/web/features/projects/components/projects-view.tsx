@@ -18,13 +18,9 @@ import { errorMessage } from "@/lib/errors"
 import { useProjectActions, useProjects } from "../hooks"
 import type { Project } from "../services"
 
-// A 402 has already opened the upgrade dialog (apiFetch); every other error gets a toast.
 function useFail() {
   const { toast } = useToast()
-  return (err: unknown) => {
-    if (err instanceof ApiError && err.status === 402) return
-    toast({ title: errorMessage(err instanceof ApiError ? err.message : undefined), variant: "destructive" })
-  }
+  return (err: unknown) => toast({ title: errorMessage(err instanceof ApiError ? err.message : undefined), variant: "destructive" })
 }
 
 export function ProjectsView() {

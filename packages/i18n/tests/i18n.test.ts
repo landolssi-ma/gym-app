@@ -4,7 +4,7 @@ import { t } from "../src"
 
 describe("t", () => {
   test("formats a message with its values", () => {
-    expect(t("organization.personalName", { firstName: "Ada" })).toBe("Ada's workspace")
+    expect(t("app.dashboardBody")).toBe("Your account is ready. Build your product here.")
   })
 
   test("keys are checked against en.json at compile time", () => {

@@ -18,8 +18,7 @@ describe("Hero", () => {
 
   it("renders the headline and ends in a sign-up call to action", () => {
     expect(text(markup)).toContain(text(t.markup("marketing.heroHeadline", { highlight: (c) => c })))
-    const cta = markup.match(/<a[^>]*href="([^"]*)"[^>]*>[^<]*Start your free trial/)
-    expect(cta?.[1]).toBe("/sign-in?mode=signup")
+    expect(markup).toContain(`href="/sign-in?mode=signup">${t("marketing.heroCta")}`)
   })
 
   it("has no product URL form and no images to supply", () => {

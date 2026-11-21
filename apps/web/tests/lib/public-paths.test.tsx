@@ -23,8 +23,8 @@ import { CONTENT_PATH_PREFIXES, STATIC_PUBLIC_PATHS } from "../../lib/public-pat
 import { renderServer } from "../helpers/render-server"
 
 const appDir = fileURLToPath(new URL("../../app", import.meta.url))
-// Every page outside the signed-in groups, the auth flows and the invite page is a marketing page.
-const NOT_MARKETING = /^\/(\(app\)|\(backoffice\)|api|sign-in|reset-password|post-sign-in|team)(\/|$)/
+// Every page outside the signed-in groups and auth flows is a marketing page.
+const NOT_MARKETING = /^\/(\(app\)|\(backoffice\)|api|sign-in|reset-password|post-sign-in)(\/|$)/
 const marketingRoutes = (readdirSync(appDir, { recursive: true }) as string[])
   .filter((f) => f === "page.tsx" || f.endsWith("/page.tsx"))
   .map((f) => "/" + f.replace(/\/?page\.tsx$/, ""))

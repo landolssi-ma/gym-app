@@ -25,8 +25,6 @@ const fixed: Record<string, string> = {
   CMS_PROVIDER: "basehub",
   CMS_API_URL: "https://cms.test/graphql",
   INNGEST_DEV: "1",
-  BILLING_TEST_MODE: "1",
-  BILLING_PRODUCT_IDS: JSON.stringify({ "starter:month": "a", "starter:year": "b", "pro:month": "c", "pro:year": "d", "business:month": "e", "business:year": "f" }),
 }
 const sentinel = (key: string) => `sentinel-${key.toLowerCase().replaceAll("_", "-")}-0000000000000000`
 const dbPassword = sentinel("database_password")

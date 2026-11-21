@@ -6,7 +6,6 @@ const IMAGES = ["image/png", "image/jpeg", "image/webp", "image/gif"]
 
 export const FILE_PURPOSES = {
   avatar: { types: IMAGES, maxSize: 5 * MB, visibility: "public" },
-  logo: { types: IMAGES, maxSize: 5 * MB, visibility: "public" },
   attachment: { types: [...IMAGES, "application/pdf", "text/plain", "text/csv"], maxSize: 10 * MB, visibility: "private" },
 } as const satisfies Record<string, { types: readonly string[]; maxSize: number; visibility: "public" | "private" }>
 

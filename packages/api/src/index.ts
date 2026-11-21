@@ -80,8 +80,7 @@ export function createApi(makeDeps: () => Deps) {
     })
     .use(noDuplicateAuthCookies(), exactOrigin())
     .route("/api/health", health)
-    // Better Auth's own admin and organization endpoints stay closed except these exact paths; every
-    // other admin or workspace action goes through starter routes and their guards.
+    // Better Auth's admin endpoints stay closed except these exact paths.
     .use("/api/auth/admin/*", async (c, next) => {
       if (c.req.path !== "/api/auth/admin/impersonate-user" && c.req.path !== "/api/auth/admin/stop-impersonating") return c.json(notFound, 404)
       await next()

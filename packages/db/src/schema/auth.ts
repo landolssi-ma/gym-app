@@ -1,5 +1,5 @@
-// Better Auth tables (user, session, account, verification, rate_limit) and its organization
-// plugin tables (organization, member, invitation). Column names follow Better Auth's schema.
+// Better Auth tables (user, session, account, verification, rate_limit). Column names follow
+// Better Auth's schema.
 import { relations, sql } from "drizzle-orm"
 import {
   pgTable,
@@ -26,8 +26,8 @@ export const user = pgTable(
       .defaultNow()
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
-    // Platform role ("admin" = platform admin, not a workspace role). input:false in the Better
-    // Auth config means only a direct DB write can change it; requireAdmin re-reads it fresh.
+    // input:false in Better Auth means only a direct DB write can change the platform role;
+    // requireAdmin re-reads it fresh.
     role: text("role").default("user").notNull(),
     banned: boolean("banned").default(false),
     banReason: text("ban_reason"),

@@ -55,7 +55,7 @@ export function ProfileView() {
         </form>
       </SettingsCard>
       <SettingsCard title={t("settings.profile.avatarHeading")}>
-        <ImageUpload purpose="avatar" name={me.user.name || me.user.email} image={me.user.image} disabled={impersonating} />
+        <ImageUpload name={me.user.name || me.user.email} image={me.user.image} disabled={impersonating} />
       </SettingsCard>
       <SettingsCard title={t("settings.profile.emailHeading")} description={t("settings.profile.emailCurrent", { email: me.user.email })}>
         <form className="flex flex-col gap-2" onSubmit={requestEmailChange}>

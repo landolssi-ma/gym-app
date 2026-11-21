@@ -4,11 +4,10 @@ import { ApiError } from "../../lib/api-fetch"
 import { createQueryClient } from "../../lib/query-client"
 
 describe("createQueryClient", () => {
-  it("never retries a query on a 401 or 409 ApiError, regardless of failureCount", () => {
+  it("never retries a query on a 401 ApiError, regardless of failureCount", () => {
     const client = createQueryClient()
     const retry = client.getDefaultOptions().queries?.retry as (failureCount: number, error: unknown) => boolean
     expect(retry(0, new ApiError(401, "unauthorized"))).toBe(false)
-    expect(retry(0, new ApiError(409, "org_changed"))).toBe(false)
     expect(retry(5, new ApiError(401, "unauthorized"))).toBe(false)
   })
 
@@ -26,6 +25,5 @@ describe("createQueryClient", () => {
     const retry = client.getDefaultOptions().mutations?.retry as (failureCount: number, error: unknown) => boolean
     expect(retry(0, new Error("network"))).toBe(false)
     expect(retry(0, new ApiError(401, "unauthorized"))).toBe(false)
-    expect(retry(0, new ApiError(409, "org_changed"))).toBe(false)
   })
 })
