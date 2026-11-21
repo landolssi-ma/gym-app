@@ -35,13 +35,13 @@ if [ "$(node -e "console.log(new URL(process.argv[1]).hostname)" "$URL")" != "12
 fi
 
 for _ in $(seq 1 30); do
-  if psql "$URL" -c 'select 1' >/dev/null 2>&1; then break; fi
+  if docker exec "$CONTAINER" pg_isready -U postgres -d postgres >/dev/null 2>&1; then break; fi
   sleep 1
 done
-psql "$URL" -c 'select 1' >/dev/null
+docker exec "$CONTAINER" pg_isready -U postgres -d postgres >/dev/null
 
 for f in "$DB_DIR"/drizzle/0*.sql; do
-  psql "$URL" -v ON_ERROR_STOP=1 --single-transaction -q -f "$f"
+  docker exec -i "$CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 --single-transaction -q < "$f"
 done
 
 cd "$ROOT_DIR"

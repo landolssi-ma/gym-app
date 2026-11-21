@@ -22,10 +22,7 @@
     "db:studio": "pnpm --filter @workspace/db db:studio",
     "smoke": "node tooling/scripts/smoke.mjs --local",
     "smoke:prod": "node tooling/scripts/smoke.mjs --env-file apps/web/.env.production",
-    "tunnel": "cloudflared tunnel --url http://localhost:5173 --http-host-header localhost:5173",
-    "billing:setup": "tsx tooling/scripts/billing-setup.ts",
-    "billing:simulate": "tsx tooling/scripts/billing-simulate.ts",
-    "billing:sign": "tsx tooling/scripts/billing-sign.ts"
+    "tunnel": "cloudflared tunnel --url http://localhost:5173 --http-host-header localhost:5173"
   },
   "devDependencies": {
     "@fission-ai/openspec": "^2.1.1",
