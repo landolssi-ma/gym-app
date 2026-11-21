@@ -4,7 +4,7 @@
 
 - [x] 1.1 Add an export command for all workspace data and verify it produces a complete dated JSON archive before schema removal; then replace workspace-owned and subscription-owned schema with account-owned fields and regenerate the baseline migration.
 - [x] 1.2 Rewrite seed and database fixtures to create account-owned demo data, and verify `pnpm db:seed` and `pnpm test:db` succeed.
-- [ ] 1.3 Remove organization, invitation, membership, subscription, survey and workspace purge data paths, and verify no schema or package tests reference them.
+- [x] 1.3 Remove organization, invitation, membership, subscription, survey and workspace purge data paths, and verify no schema or package tests reference them.
 
 ## 2. API account scoping
 

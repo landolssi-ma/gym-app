@@ -2,7 +2,6 @@ import { createAuth } from "@workspace/auth"
 import { createTestDb } from "@workspace/db/testing"
 
 import { createApi, type Deps } from "../../src/index"
-import { testBilling, webhook } from "./billing"
 import { APP, COOKIE_PREFIX, fakeDeps } from "./fake-deps"
 
 export const TOKEN = `${COOKIE_PREFIX}.session_token`
@@ -27,7 +26,7 @@ export function createPgApp(overrides: Partial<Deps> = {}) {
   })
   // Invitation emails come from the team route through deps.mail.
   const mail = { send: async (template: string, email: string, data: Record<string, unknown>) => void (template === "teamInvite" && links.push({ kind: "invite", email, url: String(data.acceptUrl) })) }
-  const deps = fakeDeps({ db, auth, mail: mail as never, billing: testBilling(), ...overrides })
+  const deps = fakeDeps({ db, auth, mail: mail as never, ...overrides })
   const app = createApi(() => deps)
   // Random per instance: Better Auth's rate-limit table is shared by every test file in a run.
   let ip = Math.floor(Math.random() * 60_000)
@@ -68,21 +67,5 @@ export function createPgApp(overrides: Partial<Deps> = {}) {
 
   const email = (tag: string) => `${tag}-${crypto.randomUUID()}@test.invalid`
 
-  // A charged (active) subscription for the workspace, through the real signed webhook.
-  async function subscribe(orgId: string, plan: "starter" | "pro" | "business" = "pro") {
-    const w = webhook({ type: "subscription.renewed", organizationId: orgId, plan })
-    const res = await app.request(`${APP}/api/webhooks/billing`, { method: "POST", headers: w.headers, body: w.body })
-    if (res.status !== 200) throw new Error(`subscribe: ${res.status}`)
-  }
-
-  // A signed-in owner of a subscribed personal workspace.
-  async function owner(tag = "owner", plan?: "starter" | "pro" | "business") {
-    const ownerEmail = email(tag)
-    const jar = await signIn(ownerEmail)
-    const orgId = ((await (await call("/api/organizations", { cookie: jar })).json()) as { activeId: string }).activeId
-    await subscribe(orgId, plan)
-    return { email: ownerEmail, jar, orgId }
-  }
-
-  return { db, end, auth, deps, app, call, signIn, jarFrom, expiresSessionToken, email, subscribe, owner, codes, links, verified }
+  return { db, end, auth, deps, app, call, signIn, jarFrom, expiresSessionToken, email, codes, links, verified }
 }

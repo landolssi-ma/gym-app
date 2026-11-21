@@ -1,12 +1,12 @@
 import type { Context, MiddlewareHandler } from "hono"
 
 import type { Ai } from "@workspace/ai"
-import type { ActiveOrganization, AuthSession, OrgRole } from "@workspace/auth"
+import type { AuthSession } from "@workspace/auth"
 
 import type { AppEnv } from "./index"
 
 export type GuardEnv = {
-  Variables: AppEnv["Variables"] & { userId: string; session: AuthSession; orgId: string; orgRole: OrgRole; org: ActiveOrganization; adminId: string; ai: Ai }
+  Variables: AppEnv["Variables"] & { userId: string; session: AuthSession; adminId: string; ai: Ai }
 }
 
 // A refused session's cookie is expired on the same response.
@@ -31,35 +31,6 @@ export const forbidWhileImpersonating: MiddlewareHandler<GuardEnv> = async (c, n
   await next()
 }
 
-// The active workspace comes from the session and membership is re-checked on every request. The
-// x-org-id header only detects a stale tab: it never selects which workspace is read or written.
-function activeOrgGuard(opts: { allowSuspended?: boolean } = {}): MiddlewareHandler<GuardEnv> {
-  return async (c, next) => {
-    const { deps, session } = c.var
-    const org = await deps.auth.getActiveOrganization(session)
-    if (!org) return c.json({ error: "no_organization" }, 403)
-    const header = c.req.header("x-org-id")
-    if (header && header !== org.id) return c.json({ error: "org_changed" }, 409)
-    if (org.suspended && !opts.allowSuspended) return c.json({ error: "org_suspended" }, 403)
-    c.set("orgId", org.id)
-    c.set("orgRole", org.role)
-    c.set("org", org)
-    await next()
-  }
-}
-
-export const requireActiveOrg = activeOrgGuard()
-// Only for the routes a member of a suspended workspace needs to see the notice and switch away.
-export const requireActiveOrgAllowSuspended = activeOrgGuard({ allowSuspended: true })
-
-// A role refusal is 403 forbidden; 404 stays reserved for ids outside the active workspace.
-export function requireOrgRole(...roles: OrgRole[]): MiddlewareHandler<GuardEnv> {
-  return async (c, next) => {
-    if (!roles.includes(c.var.orgRole)) return c.json({ error: "forbidden" }, 403)
-    await next()
-  }
-}
-
 // The platform admin role is always a fresh database read, never taken from the session.
 export const requireAdmin: MiddlewareHandler<GuardEnv> = async (c, next) => {
   if (!(await c.var.deps.auth.hasRole(c.var.userId, "admin"))) return c.json({ error: "forbidden" }, 403)
@@ -67,7 +38,7 @@ export const requireAdmin: MiddlewareHandler<GuardEnv> = async (c, next) => {
   await next()
 }
 
-// After requireUser and requireActiveOrg, before any rate limit, meter or model call, so a request
+// After requireUser, before any rate limit, meter or model call, so a request
 // to an unconfigured AI feature costs nothing.
 export const requireAi: MiddlewareHandler<GuardEnv> = async (c, next) => {
   const { ai } = c.var.deps

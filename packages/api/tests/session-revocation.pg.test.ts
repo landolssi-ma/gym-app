@@ -16,8 +16,7 @@ describe.skipIf(!TEST_PG_URL)("revoked and banned sessions against real Postgres
   const me = (cookie: string) => t.call("/api/probe", { cookie })
 
   async function expectAuthEndpointsRefuse(jar: string) {
-    const list = await t.call("/api/auth/organization/list", { cookie: jar })
-    expect(list.status).toBe(401)
+    expect((await t.call("/api/me", { cookie: jar })).status).toBe(401)
     expect((await t.call("/api/auth/update-user", { method: "POST", body: { name: "x" }, cookie: jar })).status).toBe(401)
   }
 
@@ -115,7 +114,7 @@ describe.skipIf(!TEST_PG_URL)("revoked and banned sessions against real Postgres
     const stale = await t.signIn(address)
     expect((await t.call("/api/auth/revoke-sessions", { method: "POST", body: {}, cookie: stale })).status).toBe(200)
     const fresh = await t.signIn(address, stale)
-    expect((await t.call("/api/auth/organization/list", { cookie: fresh })).status).toBe(200)
+    expect((await t.call("/api/me", { cookie: fresh })).status).toBe(200)
     expect((await me(fresh)).status).toBe(200)
   })
 

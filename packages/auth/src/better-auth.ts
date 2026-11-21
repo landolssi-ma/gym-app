@@ -3,14 +3,11 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { admin } from "better-auth/plugins/admin"
 import { emailOTP } from "better-auth/plugins/email-otp"
 import { haveIBeenPwned } from "better-auth/plugins/haveibeenpwned"
-import { organization } from "better-auth/plugins/organization"
 
-import { account, and, eq, isNull, sql, user, type Db } from "@workspace/db"
+import { account, and, eq, isNull, user, type Db } from "@workspace/db"
 import * as schema from "@workspace/db"
 
-import { ac, admin as adminRole, member, owner } from "./access"
 import { hashPassword, verifyPassword } from "./password"
-import { ensurePersonalOrganization, resolveActiveOrganization } from "./organizations"
 
 export const SIGN_IN_CODE_MINUTES = 10
 export const INVITATION_HOURS = 48
@@ -66,7 +63,6 @@ export function createBetterAuth(c: AuthConfig) {
         // input:false: Better Auth never accepts a client-supplied value, so only a direct DB write
         // can make someone a platform admin. requireAdmin still re-reads the column on every request.
         role: { type: "string", input: false, defaultValue: "user" },
-        lastActiveOrganizationId: { type: "string", required: false, input: false },
       },
       // A verified user's new address takes effect only once a link sent to it is opened.
       changeEmail: { enabled: true },
@@ -106,22 +102,6 @@ export function createBetterAuth(c: AuthConfig) {
       haveIBeenPwned(),
       // Impersonation lasts at most 1 hour; impersonating another platform admin is refused.
       admin({ defaultRole: "user", adminRoles: ["admin"], impersonationSessionDuration: 60 * 60 }),
-      organization({
-        ac,
-        roles: { owner, admin: adminRole, member },
-        creatorRole: "owner",
-        // Workspaces and invitations go through the starter's own routes: workspace creation decides
-        // trial eligibility, and invitations check seats in the same transaction as the write.
-        allowUserToCreateOrganization: false,
-        schema: {
-          organization: {
-            additionalFields: {
-              suspended: { type: "boolean", required: true, defaultValue: false, input: false },
-              noTrial: { type: "boolean", required: true, defaultValue: false, input: false },
-            },
-          },
-        },
-      }),
     ],
     // The in-memory store is per isolate on Workers, so it would not hold. Every endpoint keeps the
     // default limit; the ones that send email or check a secret get a tighter one per client IP.
@@ -158,28 +138,8 @@ export function createBetterAuth(c: AuthConfig) {
       },
       session: {
         create: {
-          // Every new session gets an active workspace: the one the person last used if they still
-          // belong to it, else their personal workspace (created now if they have none).
           async before(session, ctx) {
-            const [row] = await c.db
-              .select({ id: user.id, name: user.name, email: user.email, lastActiveOrganizationId: user.lastActiveOrganizationId })
-              .from(user)
-              .where(eq(user.id, session.userId))
-            const country = ctx?.headers?.get("cf-ipcountry") ?? null
-            if (!row) return { data: { ...session, country } }
-            const org = (await resolveActiveOrganization(c.db, row.id, row.lastActiveOrganizationId)) ?? (await ensurePersonalOrganization(c.db, row))
-            return { data: { ...session, country, activeOrganizationId: org.id } }
-          },
-        },
-        update: {
-          // Every workspace switch records the person's last used workspace.
-          async after(session) {
-            const activeOrganizationId = (session as { activeOrganizationId?: string | null }).activeOrganizationId
-            if (!activeOrganizationId) return
-            await c.db
-              .update(user)
-              .set({ lastActiveOrganizationId: activeOrganizationId })
-              .where(and(eq(user.id, session.userId), sql`${user.lastActiveOrganizationId} is distinct from ${activeOrganizationId}`))
+            return { data: { ...session, country: ctx?.headers?.get("cf-ipcountry") ?? null } }
           },
         },
       },

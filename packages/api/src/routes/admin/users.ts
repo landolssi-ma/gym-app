@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { z } from "zod"
 
-import { and, desc, eq, gt, ilike, member, or, organization, session, user } from "@workspace/db"
+import { and, desc, eq, gt, ilike, or, session, user } from "@workspace/db"
 
 import { auditActor, writeAudit } from "../../audit"
 import type { GuardEnv } from "../../guards"
@@ -43,15 +43,14 @@ export const adminUsers = new Hono<GuardEnv>()
       .from(user)
       .where(eq(user.id, id))
     if (!row) return c.json({ error: "not_found" }, 404)
-    const [memberships, sessions] = await Promise.all([
-      db.select({ id: organization.id, name: organization.name, role: member.role, deletedAt: organization.deletedAt }).from(member).innerJoin(organization, eq(organization.id, member.organizationId)).where(eq(member.userId, id)),
+    const [sessions] = await Promise.all([
       db
         .select({ id: session.id, createdAt: session.createdAt, updatedAt: session.updatedAt, ipAddress: session.ipAddress, userAgent: session.userAgent, impersonatedBy: session.impersonatedBy })
         .from(session)
         .where(and(eq(session.userId, id), gt(session.expiresAt, new Date())))
         .orderBy(desc(session.updatedAt)),
     ])
-    return c.json({ ...row, organizations: memberships, sessions })
+    return c.json({ ...row, sessions })
   })
   .post("/:id/ban", json(z.object({ reason: z.string().trim().min(1).max(500), expiresAt: z.iso.datetime().nullable().default(null) })), async (c) => {
     const { deps, adminId } = c.var
@@ -61,7 +60,7 @@ export const adminUsers = new Hono<GuardEnv>()
     const { reason, expiresAt } = c.req.valid("json")
     if (expiresAt && new Date(expiresAt) <= new Date()) return c.json({ error: "invalid" }, 400)
     await deps.auth.banUser(id, { reason, expiresAt: expiresAt ? new Date(expiresAt) : null }, (tx) =>
-      writeAudit(tx, auditActor(c), { organizationId: null, action: "user.banned", targetType: "user", targetId: id, metadata: { reason, expiresAt } }),
+      writeAudit(tx, auditActor(c), { action: "user.banned", targetType: "user", targetId: id, metadata: { reason, expiresAt } }),
     )
     return c.json({ ok: true })
   })
@@ -71,7 +70,7 @@ export const adminUsers = new Hono<GuardEnv>()
     const id = c.req.param("id")
     const [row] = await deps.db.select({ id: user.id }).from(user).where(eq(user.id, id))
     if (!row) return c.json({ error: "not_found" }, 404)
-    await deps.auth.unbanUser(id, (tx) => writeAudit(tx, auditActor(c), { organizationId: null, action: "user.unbanned", targetType: "user", targetId: id }))
+    await deps.auth.unbanUser(id, (tx) => writeAudit(tx, auditActor(c), { action: "user.unbanned", targetType: "user", targetId: id }))
     return c.json({ ok: true })
   })
   // Only a session of this user: another user's session id is 404, not a stranger signed out.
@@ -82,7 +81,7 @@ export const adminUsers = new Hono<GuardEnv>()
     if (guard) return c.json(...refuse(guard))
     const sessionId = c.req.param("sessionId")
     const revoked = await deps.auth.revokeSession(id, sessionId, (tx) =>
-      writeAudit(tx, auditActor(c), { organizationId: null, action: "session.revoked", targetType: "session", targetId: sessionId, metadata: { userId: id } }),
+      writeAudit(tx, auditActor(c), { action: "session.revoked", targetType: "session", targetId: sessionId, metadata: { userId: id } }),
     )
     return revoked ? c.json({ ok: true }) : c.json({ error: "not_found" }, 404)
   })

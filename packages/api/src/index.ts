@@ -2,7 +2,6 @@ import { Hono, type Context, type Next } from "hono"
 
 import { AiError, type Ai } from "@workspace/ai"
 import type { Auth, AuthSession } from "@workspace/auth"
-import type { Billing } from "@workspace/billing"
 import { createLog, type Analytics, type Log } from "@workspace/core"
 import type { Db } from "@workspace/db"
 import type { Jobs } from "@workspace/jobs"
@@ -15,14 +14,10 @@ import { readSession } from "./guards"
 import { exactOrigin, noDuplicateAuthCookies } from "./middleware"
 import { account } from "./routes/account"
 import { admin } from "./routes/admin"
-import { billing } from "./routes/billing"
 import { filesRoutes } from "./routes/files"
 import { health } from "./routes/health"
 import { me } from "./routes/me"
-import { organizations } from "./routes/organizations"
 import { projectsRoutes } from "./routes/projects"
-import { team } from "./routes/team"
-import { webhooks } from "./routes/webhooks"
 
 export { hasDuplicateAuthCookies } from "./middleware"
 
@@ -38,7 +33,6 @@ export type Deps = {
   // Lazy getter: built on first use so routes that never touch auth skip its cost.
   auth: Auth
   mail: Mail
-  billing: Billing
   storage: Storage
   jobs: Jobs
   // Absent when PostHog is not configured.
@@ -86,16 +80,10 @@ export function createApi(makeDeps: () => Deps) {
     })
     .use(noDuplicateAuthCookies(), exactOrigin())
     .route("/api/health", health)
-    // Signature-verified, not session-gated: mounted before anything that reads a session.
-    .route("/", webhooks)
     // Better Auth's own admin and organization endpoints stay closed except these exact paths; every
     // other admin or workspace action goes through starter routes and their guards.
     .use("/api/auth/admin/*", async (c, next) => {
       if (c.req.path !== "/api/auth/admin/impersonate-user" && c.req.path !== "/api/auth/admin/stop-impersonating") return c.json(notFound, 404)
-      await next()
-    })
-    .use("/api/auth/organization/*", async (c, next) => {
-      if (c.req.path !== "/api/auth/organization/set-active" && c.req.path !== "/api/auth/organization/list") return c.json(notFound, 404)
       await next()
     })
     // With a session cookie, the facade's fresh read runs first: it deletes a session that outlived
@@ -127,9 +115,6 @@ export function createApi(makeDeps: () => Deps) {
     .on(["GET", "POST"], "/api/auth/*", (c) => c.var.deps.auth.handleRequest(c.req.raw))
     .route("/api/account", account)
     .route("/api/me", me)
-    .route("/api/organizations", organizations)
-    .route("/api/team", team)
-    .route("/api/billing", billing)
     .route("/api/files", filesRoutes)
     .route("/api/projects", projectsRoutes)
     .route("/api/admin", admin)
@@ -162,7 +147,7 @@ async function auditImpersonation(c: Context<AppEnv>, next: Next, session: AuthS
   if (!adminId) return
   const { deps } = c.var
   try {
-    await writeAudit(deps.db, { actorId: adminId, impersonatorId: null, ip: c.req.header("cf-connecting-ip") ?? null }, { organizationId: null, action: starting ? "impersonation.started" : "impersonation.stopped", targetType: "user", targetId })
+    await writeAudit(deps.db, { actorId: adminId, impersonatorId: null, ip: c.req.header("cf-connecting-ip") ?? null }, { action: starting ? "impersonation.started" : "impersonation.stopped", targetType: "user", targetId })
   } catch (err) {
     if (starting) await deps.auth.revokeImpersonationSessions(adminId)
     throw err

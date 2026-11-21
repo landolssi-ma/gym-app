@@ -7,27 +7,15 @@ import type { Tx } from "./rate-limit"
 
 // Every action the audit-log spec names. Adding one here is how a new action becomes auditable.
 export type AuditAction =
-  | "member.invited"
-  | "member.removed"
-  | "member.role_changed"
-  | "ownership.transferred"
-  | "workspace.created"
-  | "workspace.deleted"
-  | "workspace.suspended"
-  | "workspace.unsuspended"
   | "user.banned"
   | "user.unbanned"
   | "session.revoked"
   | "impersonation.started"
   | "impersonation.stopped"
-  | "subscription.plan_changed"
-  | "subscription.canceled"
-  | "subscription.resumed"
 
 export type AuditEntry = {
-  organizationId: string | null
   action: AuditAction
-  targetType: "user" | "member" | "invitation" | "workspace" | "session" | "subscription"
+  targetType: "user" | "session"
   targetId: string
   metadata?: Record<string, unknown>
 }

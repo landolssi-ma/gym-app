@@ -2,7 +2,6 @@ import { z } from "zod"
 
 import { createAi } from "@workspace/ai"
 import { createAuth, type Auth } from "@workspace/auth"
-import { createBilling, INTERVALS, PLAN_IDS, productKey } from "@workspace/billing"
 import { createAnalytics, createLog } from "@workspace/core"
 import { createDb } from "@workspace/db"
 import { createJobs } from "@workspace/jobs"
@@ -37,21 +36,6 @@ export const ApiEnvKeys = z.object({
   INNGEST_DEV: z.enum(["0", "1"]),
   INNGEST_EVENT_KEY: secret,
   INNGEST_SIGNING_KEY: secret,
-  BILLING_API_KEY: secret,
-  BILLING_WEBHOOK_SECRET: secret,
-  BILLING_TEST_MODE: z.enum(["0", "1"]),
-  // Written by `pnpm billing:setup`: one Dodo product id per plan and interval.
-  BILLING_PRODUCT_IDS: z
-    .string()
-    .transform((s, ctx) => {
-      try {
-        return JSON.parse(s) as unknown
-      } catch {
-        ctx.addIssue({ code: "custom", message: "must be JSON written by pnpm billing:setup" })
-        return z.NEVER
-      }
-    })
-    .pipe(z.object(Object.fromEntries(PLAN_IDS.flatMap((p) => INTERVALS.map((i) => [productKey(p, i), z.string().min(1)]))) as Record<ReturnType<typeof productKey>, z.ZodString>)),
   // BaseHub: blog, legal pages and changelog. The admin token is for `pnpm cms:setup` only.
   CMS_PROVIDER: z.enum(["basehub"]),
   CMS_API_KEY: secret,
@@ -133,7 +117,6 @@ export function createDeps(c: ApiEnv, opts: HandlerOptions): Deps {
     config: { appOrigin: c.APP_ORIGIN, smokeToken: c.SMOKE_TOKEN, rateLimitSalt: c.RATE_LIMIT_SALT, cookiePrefix: site.cookiePrefix },
     db,
     mail,
-    billing: createBilling({ apiKey: c.BILLING_API_KEY, webhookSecret: c.BILLING_WEBHOOK_SECRET, testMode: c.BILLING_TEST_MODE === "1", productIds: c.BILLING_PRODUCT_IDS }),
     storage: createStorage({ endpoint: c.S3_ENDPOINT, accessKeyId: c.S3_ACCESS_KEY_ID, secretAccessKey: c.S3_SECRET_ACCESS_KEY, bucket: c.S3_BUCKET, appOrigin: c.APP_ORIGIN }),
     jobs,
     get auth() {

@@ -11,7 +11,7 @@ const UUID = "00000000-0000-4000-8000-000000000000"
 // Better Auth answers /api/auth/* itself: sign-in and sign-up run before any session exists.
 // /media serves public avatars and logos from the public storage folder only.
 const PUBLIC = new Set(["GET /api/health", "GET /api/health/analytics", "GET /api/auth/*", "POST /api/auth/*", "GET /media/:key{[0-9a-f-]{36}}"])
-const SIGNATURE = new Set(["GET /api/inngest", "PUT /api/inngest", "POST /api/inngest", "POST /api/webhooks/billing"])
+const SIGNATURE = new Set(["GET /api/inngest", "PUT /api/inngest", "POST /api/inngest"])
 
 function sorted(keys: string[]): string[] {
   return keys.sort((a, b) => {

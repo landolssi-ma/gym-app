@@ -18,13 +18,9 @@ const valid = {
   INNGEST_DEV: "0",
   INNGEST_EVENT_KEY: "test",
   INNGEST_SIGNING_KEY: "test",
-  BILLING_API_KEY: "test",
-  BILLING_WEBHOOK_SECRET: "whsec_dGVzdA==",
-  BILLING_TEST_MODE: "1",
   CMS_PROVIDER: "basehub",
   CMS_API_KEY: "cms-read-token",
   CMS_API_URL: "https://cms.test/graphql",
-  BILLING_PRODUCT_IDS: JSON.stringify({ "starter:month": "a", "starter:year": "b", "pro:month": "c", "pro:year": "d", "business:month": "e", "business:year": "f" }),
 }
 const local = { ...valid, APP_ORIGIN: "http://localhost:5173" }
 
@@ -113,7 +109,6 @@ describe("parseApiEnv", () => {
     expect(configError({ ...valid, INNGEST_DEV: "1" })).toContain("INNGEST_DEV")
   })
 })
-
 describe("createApiHandler", () => {
   const site = {
     name: "Acme",
@@ -166,13 +161,5 @@ describe("announceUser", () => {
     const mail = { send: vi.fn(async () => { throw new Error("provider down") }) }
     await expect(announceUser({ jobs: { send: async () => {} } as never, mail, log: { info() {}, warn() {}, error }, appOrigin: "https://app.test" }, u)).resolves.toBeUndefined()
     expect(error).toHaveBeenCalledWith("user_created_followup", expect.anything())
-  })
-})
-
-describe("billing config", () => {
-  test("BILLING_PRODUCT_IDS must name every plan and interval", () => {
-    expect(parseApiEnv(valid).BILLING_PRODUCT_IDS["pro:year"]).toBe("d")
-    expect(configError({ ...valid, BILLING_PRODUCT_IDS: JSON.stringify({ "pro:year": "d" }) })).toContain("BILLING_PRODUCT_IDS")
-    expect(configError({ ...valid, BILLING_PRODUCT_IDS: "not json" })).toContain("BILLING_PRODUCT_IDS: must be JSON written by pnpm billing:setup")
   })
 })

@@ -16,7 +16,6 @@ export function fakeDeps(overrides: Partial<Deps> = {}): Deps {
     auth: forbidden("auth") as Deps["auth"],
     mail: { send: async () => {} },
     storage: forbidden("storage") as Deps["storage"],
-    billing: forbidden("billing") as Deps["billing"],
     // 204 marks a request that reached the Inngest handler.
     jobs: { define: noop, send: async () => {}, serve: () => async () => new Response(null, { status: 204 }) } as unknown as Deps["jobs"],
     log: { info: noop, warn: noop, error: noop },

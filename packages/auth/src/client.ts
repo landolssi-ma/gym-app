@@ -1,8 +1,8 @@
 import { createAuthClient } from "better-auth/client"
-import { adminClient, emailOTPClient, organizationClient } from "better-auth/client/plugins"
+import { adminClient, emailOTPClient } from "better-auth/client/plugins"
 
 const authClient = createAuthClient({
-  plugins: [emailOTPClient(), organizationClient(), adminClient()],
+  plugins: [emailOTPClient(), adminClient()],
   // Resolve fetch per call rather than once at module load.
   fetchOptions: { customFetchImpl: (input, init) => globalThis.fetch(input, init) },
 })

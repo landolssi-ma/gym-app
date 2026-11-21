@@ -21,7 +21,7 @@ export const noDuplicateAuthCookies = (): MiddlewareHandler<AppEnv> => async (c,
 // hono/csrf is not used: it skips application/json bodies. Inngest and billing webhook requests
 // are signature-verified instead. Listed as exact fixed paths, never a prefix, so no other path is
 // ever accidentally exempted.
-const ORIGIN_EXEMPT = new Set(["/api/inngest", "/api/webhooks/billing"])
+const ORIGIN_EXEMPT = new Set(["/api/inngest"])
 
 export const exactOrigin = (): MiddlewareHandler<AppEnv> => async (c, next) => {
   const safe = c.req.method === "GET" || c.req.method === "HEAD" || c.req.method === "OPTIONS"
