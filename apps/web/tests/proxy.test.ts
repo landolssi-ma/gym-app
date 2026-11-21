@@ -11,7 +11,7 @@ const run = (path: string) => proxy(new NextRequest(new Request(`https://app.tes
 const passes = (res: Response) => res.headers.get("x-middleware-next") === "1"
 
 describe("proxy", () => {
-  it.each(["/", "/sign-in", "/reset-password", "/pricing", "/privacy", "/terms", "/changelog", "/blog", "/help", "/contact", "/blog/any-new-slug", "/opengraph-image", "/blog/x/opengraph-image", "/api/anything", "/media/avatars/a.png", "/favicon.ico"])(
+  it.each(["/", "/sign-in", "/reset-password", "/privacy", "/terms", "/changelog", "/blog", "/help", "/contact", "/blog/any-new-slug", "/opengraph-image", "/blog/x/opengraph-image", "/api/anything", "/media/avatars/a.png", "/favicon.ico"])(
     "%s is public: no cookie check",
     (path) => {
       expect(passes(run(path))).toBe(true)

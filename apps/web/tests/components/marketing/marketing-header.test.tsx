@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
-vi.mock("next/navigation", () => ({ usePathname: () => "/pricing" }))
+vi.mock("next/navigation", () => ({ usePathname: () => "/blog" }))
 
 import { t } from "@workspace/i18n"
 
@@ -41,7 +41,7 @@ describe("MarketingHeader", () => {
   it("marks the current page in the navigation", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response(null, { status: 401 })))
     await m.render(<MarketingHeader />)
-    expect(m.container.querySelector('a[href="/pricing"]')?.getAttribute("data-active")).not.toBeNull()
+    expect(m.container.querySelector('a[href="/blog"]')?.getAttribute("data-active")).not.toBeNull()
   })
 })
 
@@ -66,7 +66,7 @@ describe("MobileNav", () => {
 
   it("closes after following a link", async () => {
     const sheet = await open()
-    await click(sheet.querySelector('a[href="/pricing"]'))
+    await click(sheet.querySelector('a[href="/blog"]'))
     expect(document.querySelector('[role="dialog"]')).toBeNull()
   })
 })

@@ -25,7 +25,7 @@ describe("robots", () => {
     const r = robots()
     expect(r.sitemap).toBe("https://app.test/sitemap.xml")
     const disallow = (r.rules as { disallow: string[] }).disallow
-    for (const p of ["/api/", "/admin", "/dashboard", "/billing", "/team", "/settings"]) expect(disallow).toContain(p)
+    for (const p of ["/api/", "/admin", "/dashboard", "/settings"]) expect(disallow).toContain(p)
     for (const p of STATIC_PUBLIC_PATHS) expect(disallow).not.toContain(p)
   })
 })
