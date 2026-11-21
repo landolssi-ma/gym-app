@@ -10,11 +10,11 @@ export const site = {
   // Email clients ignore CSS variables, so the email layout cannot read globals.css tokens.
   // Keep these in step with the brand colors in packages/ui globals.css.
   emailTheme: {
-    background: "#FFFFFF",
-    text: "#121212",
-    button: "#FFD23F",
-    buttonText: "#121212",
-    buttonBorder: "2px solid #121212",
+    background: "#F8F7F2",
+    text: "#292D29",
+    button: "#71866D",
+    buttonText: "#F8F7F2",
+    buttonBorder: "1px solid #71866D",
     font: 'system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
   },
 } as const
