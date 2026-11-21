@@ -77,8 +77,7 @@ export function ProjectsView() {
       </Card>
       <div className="flex items-center justify-between gap-3">
         <h2 className="font-heading text-lg font-bold">{t("projects.listHeading", { count: data.projects.length })}</h2>
-        {/* Shown to every plan: without `export` the API answers 402 and the upgrade dialog explains. */}
-        <Button variant="outline" disabled={!data.projects.length || actions.exportCsv.isPending} onClick={download} title={me.features.includes("export") ? undefined : t("projects.exportUpgrade")}>
+        <Button variant="outline" disabled={!data.projects.length || actions.exportCsv.isPending} onClick={download}>
           {t("projects.export")}
         </Button>
       </div>

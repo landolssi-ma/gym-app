@@ -2,8 +2,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query"
 
 import { HydrationBoundary } from "@/components/query-hydration-boundary"
 import { Providers } from "@/components/providers"
-import { ImpersonationBanner, meKeys, OrgChangedModal } from "@/features/auth"
-import { UpgradeDialog } from "@/features/billing"
+import { ImpersonationBanner, meKeys } from "@/features/auth"
 import { getMeResult } from "@/lib/api-server"
 
 // No server-side guard here: proxy.ts already sends signed-out visitors to sign-in. /api/me is
@@ -23,8 +22,6 @@ export default async function AppLayout({
         <div className="tabular-nums [--shadow-hard-sm:2px_2px_0_var(--border)] [--shadow-hard:4px_4px_0_var(--border-strong)] [--sidebar-width:calc(var(--spacing)*56)] [&_.border-2]:border [&_.border-b-2]:border-b [&_.border-l-2]:border-l [&_.border-r-2]:border-r [&_.border-t-2]:border-t [&_.text-tiny]:text-caption">
           <ImpersonationBanner />
           {children}
-          <OrgChangedModal />
-          <UpgradeDialog />
         </div>
       </HydrationBoundary>
     </Providers>
