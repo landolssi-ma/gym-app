@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { z } from "zod"
 
-import { eq, user } from "@workspace/db"
+import { eq, files, user } from "@workspace/db"
 
 import { forbidWhileImpersonating, requireUser, type GuardEnv } from "../guards"
 import { json } from "../validate"
@@ -25,6 +25,8 @@ export const account = new Hono<GuardEnv>()
   .post("/delete", forbidWhileImpersonating, json(z.object({ confirm: z.string() })), async (c) => {
     const { deps, userId, session } = c.var
     if (c.req.valid("json").confirm !== session.user.email) return c.json({ error: "confirm_mismatch" }, 400)
+    const ownedFiles = await deps.db.select({ key: files.key, visibility: files.visibility }).from(files).where(eq(files.userId, userId))
+    await Promise.all(ownedFiles.map((file) => deps.storage.delete(file.visibility, file.key)))
     await deps.db.delete(user).where(eq(user.id, userId))
     return c.json({ ok: true })
   })

@@ -16,7 +16,7 @@
 
 - [x] 3.1 Replace post-sign-in workspace/survey/plan routing with return-path or dashboard routing, and verify first sign-in opens the product.
 - [x] 3.2 Remove active-workspace session behavior and workspace lifecycle events, and verify auth tests pass.
-- [ ] 3.3 Rewrite account deletion to revoke sessions and remove account-owned data and files, and verify confirmation and cross-account behavior.
+- [x] 3.3 Rewrite account deletion to revoke sessions and remove account-owned data and files, and verify confirmation and cross-account behavior.
 
 ## 4. App shell and navigation
 
