@@ -28,7 +28,7 @@
 
 - [x] 5.1 Remove pricing, plans, checkout and paid-plan copy from public routes and navigation, and verify public-route tests pass.
 - [x] 5.2 Remove workspace and subscription views from the backoffice, and verify platform admin pages expose accounts and audit only.
-- [ ] 5.3 Restrict audit entries to account security actions and remove workspace/member/billing actions, and verify audit tests cover the new action set.
+- [x] 5.3 Restrict audit entries to account security actions and remove workspace/member/billing actions, and verify audit tests cover the new action set.
 
 ## 6. Integration verification
 
