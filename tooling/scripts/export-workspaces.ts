@@ -9,7 +9,7 @@ if (!["localhost", "127.0.0.1"].includes(new URL(url).hostname)) {
 }
 
 const { db, end } = createDb(url)
-const tables = ["organization", "member", "invitation", "subscriptions", "usage", "projects", "files", "audit_logs"]
+const tables = ["user", "account", "session", "files", "projects", "audit_logs"]
 
 try {
   const archive: Record<string, unknown[]> = {}

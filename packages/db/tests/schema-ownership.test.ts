@@ -5,7 +5,7 @@ import { describe, expect, test } from "vitest"
 import * as schema from "../src/schema"
 
 // Every product table belongs to an account unless it is listed as platform-wide.
-const GLOBAL_TABLES = new Set<string>(["health_probe", "rate_limits", "user", "session", "account", "verification", "rate_limit", "audit_logs"])
+const GLOBAL_TABLES = new Set<string>(["health_probe", "rate_limits", "user", "session", "account", "verification", "rate_limit", "audit_logs", "gym_profiles"])
 
 const tables = (Object.values(schema) as unknown[]).filter((v): v is PgTable => is(v, PgTable))
 const owned = tables.filter((t) => !GLOBAL_TABLES.has(getTableName(t)))

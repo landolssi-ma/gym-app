@@ -102,22 +102,35 @@ CREATE TABLE "audit_logs" (
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "projects" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"user_id" text NOT NULL,
-	"name" text NOT NULL,
-	"description" text DEFAULT '' NOT NULL,
-	"created_by" text,
+CREATE TABLE "gym_profiles" (
+	"user_id" text PRIMARY KEY NOT NULL,
+	"sex" text NOT NULL,
+	"age" integer NOT NULL,
+	"height_cm" real NOT NULL,
+	"weight_kg" real NOT NULL,
+	"waist_cm" real NOT NULL,
+	"hip_cm" real,
+	"sport_level" text NOT NULL,
+	"goal" text NOT NULL,
+	"sessions_per_week" integer NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "gym_profiles_sex_check" CHECK ("gym_profiles"."sex" in ('female', 'male', 'other')),
+	CONSTRAINT "gym_profiles_age_check" CHECK ("gym_profiles"."age" between 13 and 120),
+	CONSTRAINT "gym_profiles_height_check" CHECK ("gym_profiles"."height_cm" between 80 and 250),
+	CONSTRAINT "gym_profiles_weight_check" CHECK ("gym_profiles"."weight_kg" between 20 and 500),
+	CONSTRAINT "gym_profiles_waist_check" CHECK ("gym_profiles"."waist_cm" between 40 and 300),
+	CONSTRAINT "gym_profiles_hip_check" CHECK ("gym_profiles"."hip_cm" is null or "gym_profiles"."hip_cm" between 40 and 300),
+	CONSTRAINT "gym_profiles_level_check" CHECK ("gym_profiles"."sport_level" in ('beginner', 'intermediate', 'advanced')),
+	CONSTRAINT "gym_profiles_goal_check" CHECK ("gym_profiles"."goal" in ('muscle_gain', 'fat_loss', 'weight_loss', 'maintenance', 'body_recomposition')),
+	CONSTRAINT "gym_profiles_sessions_check" CHECK ("gym_profiles"."sessions_per_week" between 1 and 7)
 );
 --> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "files" ADD CONSTRAINT "files_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "files" ADD CONSTRAINT "files_uploaded_by_user_id_fk" FOREIGN KEY ("uploaded_by") REFERENCES "public"."user"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "projects" ADD CONSTRAINT "projects_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "projects" ADD CONSTRAINT "projects_created_by_user_id_fk" FOREIGN KEY ("created_by") REFERENCES "public"."user"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "gym_profiles" ADD CONSTRAINT "gym_profiles_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "account_userId_idx" ON "account" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "session_userId_idx" ON "session" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "verification_identifier_idx" ON "verification" USING btree ("identifier");--> statement-breakpoint
@@ -125,5 +138,4 @@ CREATE INDEX "files_user_id_idx" ON "files" USING btree ("user_id","created_at")
 CREATE UNIQUE INDEX "files_key_idx" ON "files" USING btree ("key");--> statement-breakpoint
 CREATE INDEX "files_pending_idx" ON "files" USING btree ("status","created_at");--> statement-breakpoint
 CREATE INDEX "audit_logs_actor_id_idx" ON "audit_logs" USING btree ("actor_id","created_at");--> statement-breakpoint
-CREATE INDEX "audit_logs_created_at_idx" ON "audit_logs" USING btree ("created_at");--> statement-breakpoint
-CREATE INDEX "projects_user_id_idx" ON "projects" USING btree ("user_id","created_at");
+CREATE INDEX "audit_logs_created_at_idx" ON "audit_logs" USING btree ("created_at");

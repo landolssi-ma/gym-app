@@ -1,36 +1,29 @@
 # Tasks
 
-## 1. Database and ownership
+## 1. Remove workspace and subscription infrastructure
 
-- [x] 1.1 Add an export command for all workspace data and verify it produces a complete dated JSON archive before schema removal; then replace workspace-owned and subscription-owned schema with account-owned fields and regenerate the baseline migration.
-- [x] 1.2 Rewrite seed and database fixtures to create account-owned demo data, and verify `pnpm db:seed` and `pnpm test:db` succeed.
-- [x] 1.3 Remove organization, invitation, membership, subscription, survey and workspace purge data paths, and verify no schema or package tests reference them.
+- [x] 1.1 Export or archive existing workspace and subscription data, then replace the baseline schema with account-owned gym data and remove organization, membership, invitation, subscription and entitlement tables; verify migrations and ownership tests against a throwaway database.
+- [ ] 1.2 Remove workspace, team, invitation, billing, webhook, checkout and entitlement routes and packages; verify route-table and API tests no longer expose those endpoints.
+- [ ] 1.3 Remove workspace/session variables, organization guards and subscription checks from Hono, Better Auth integration and account flows; verify account API routes and account deletion work without organization ownership.
 
-## 2. API account scoping
+## 2. Rework first-launch and signed-in access
 
-- [x] 2.1 Replace `requireActiveOrg` and organization variables with authenticated account ownership on product routes, and verify cross-account ids return 404.
-- [x] 2.2 Remove workspace, team, invitation, organization, billing, entitlement and checkout routes, and verify the route table and unauthorized-route tests pass.
-- [x] 2.3 Remove workspace and subscription jobs and provider events, and verify the Inngest function inventory contains no removed workspace or billing functions.
+- [ ] 2.1 Preserve the gym profile as the sole first-launch step and make post-sign-in routing account-first; verify incomplete profiles gate the app and completed profiles reach their requested path or dashboard.
+- [ ] 2.2 Remove workspace switcher, team, billing and plan navigation from the shell and user menu; verify profile, security and direct app navigation remain accessible.
+- [ ] 2.3 Remove billing, pricing, plans and checkout pages from app and public navigation; verify those URLs are no longer public or redirected to removed product assumptions.
 
-## 3. Authentication and account deletion
+## 3. Apply the Sage visual system
 
-- [x] 3.1 Replace post-sign-in workspace/survey/plan routing with return-path or dashboard routing, and verify first sign-in opens the product.
-- [x] 3.2 Remove active-workspace session behavior and workspace lifecycle events, and verify auth tests pass.
-- [x] 3.3 Rewrite account deletion to revoke sessions and remove account-owned data and files, and verify confirmation and cross-account behavior.
+- [ ] 3.1 Replace shared UI tokens with Sage `#71866D`, Beige `#E8E5D9`, Ivory `#F8F7F2` and Charcoal `#292D29`; verify no fixed brand hex values outside the token source.
+- [ ] 3.2 Rework the sign-in, sign-up and gym-profile surfaces as a clear responsive two-area layout inspired by the reference, with one primary action and neutral fitness imagery; verify 1440, 1024, 768 and 390 layouts.
+- [ ] 3.3 Rework the app shell, profile, security and settings surfaces with the same palette, typography, spacing, cards and controls; verify mobile navigation, focus states and no horizontal overflow.
+- [ ] 3.4 Rework public marketing surfaces that remain in scope so the removed pricing journey is absent and the Sage identity is consistent; verify public-path and metadata tests.
 
-## 4. App shell and navigation
+## 4. Test and verify
 
-- [x] 4.1 Remove workspace switcher, team, workspace settings and billing navigation, and verify the shell shows only account and product destinations.
-- [x] 4.2 Remove workspace, team and billing pages and features, and verify no app route renders removed navigation or plan context.
-- [x] 4.3 Update i18n keys and shell copy, and verify missing workspace/billing text keys fail no longer and `pnpm typecheck` passes.
+- [ ] 4.1 Update fixtures and tests for account-owned users and gym profiles, removing workspace/billing assertions; verify `pnpm test` passes.
+- [ ] 4.2 Run database migration tests, typecheck, lint and build; verify the application starts locally with billing-free configuration.
 
-## 5. Marketing and backoffice
+## Workflow follow-up
 
-- [x] 5.1 Remove pricing, plans, checkout and paid-plan copy from public routes and navigation, and verify public-route tests pass.
-- [x] 5.2 Remove workspace and subscription views from the backoffice, and verify platform admin pages expose accounts and audit only.
-- [x] 5.3 Restrict audit entries to account security actions and remove workspace/member/billing actions, and verify audit tests cover the new action set.
-
-## 6. Integration verification
-
-- [x] 6.1 Run unit, database, lint and typecheck suites, and verify there are no workspace, billing or entitlements references outside intentionally archived or migration documentation.
-- [x] 6.2 Launch the app and verify sign-in opens the dashboard directly, account-only routes work, and removed pages/links are absent.
+- Request `/openspec-apply-change` when implementation should start.
