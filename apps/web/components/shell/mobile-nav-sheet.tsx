@@ -34,7 +34,7 @@ export function MobileNavSheet({ me }: { me: Me }) {
             <span className="text-xs text-muted-foreground">{me.user.email}</span>
           </div>
         </div>
-        <SidebarNav items={visibleItems(NAV, { role: me.orgRole, features: me.features })} />
+        <SidebarNav items={visibleItems(NAV)} />
         <div className="border-t-2 border-border" />
         <p className="px-3 text-xs font-bold text-muted-foreground uppercase">{t("app.settingsLabel")}</p>
         <SidebarNav items={[...SETTINGS_NAV, ...(me.isAdmin ? [ADMIN_NAV] : [])]} />

@@ -1,7 +1,7 @@
 "use client"
 
 import { ADMIN_NAV, NAV, visibleItems } from "@/config/nav"
-import { OrgSwitcher, useMe } from "@/features/auth"
+import { useMe } from "@/features/auth"
 
 import { SidebarNav } from "./sidebar-nav"
 
@@ -11,8 +11,7 @@ export function ShellSidebar() {
   const { data } = useMe()
   return (
     <>
-      <OrgSwitcher />
-      <SidebarNav items={visibleItems(NAV, { role: data.orgRole, features: data.features })} />
+      <SidebarNav items={visibleItems(NAV)} />
       {data.isAdmin && (
         <div className="mt-auto">
           <SidebarNav items={[ADMIN_NAV]} />
