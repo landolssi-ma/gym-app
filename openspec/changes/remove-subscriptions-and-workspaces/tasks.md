@@ -33,4 +33,4 @@
 ## 6. Integration verification
 
 - [x] 6.1 Run unit, database, lint and typecheck suites, and verify there are no workspace, billing or entitlements references outside intentionally archived or migration documentation.
-- [ ] 6.2 Launch the app and verify sign-in opens the dashboard directly, account-only routes work, and removed pages/links are absent.
+- [x] 6.2 Launch the app and verify sign-in opens the dashboard directly, account-only routes work, and removed pages/links are absent.
