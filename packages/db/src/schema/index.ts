@@ -2,7 +2,6 @@
 export * from "./health"
 export * from "./rate-limits"
 export * from "./auth"
-export * from "./billing"
 export * from "./files"
 export * from "./audit"
 export * from "./projects"

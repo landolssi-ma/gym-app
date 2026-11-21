@@ -1,6 +1,6 @@
 import { index, integer, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core"
 
-import { organization, user } from "./auth"
+import { user } from "./auth"
 
 const tz = (name: string) => timestamp(name, { withTimezone: true })
 
@@ -10,9 +10,9 @@ export const files = pgTable(
   "files",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    organizationId: text("organization_id")
+    userId: text("user_id")
       .notNull()
-      .references(() => organization.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     // Random, so it cannot be guessed from the id, name or workspace.
     key: text("key").notNull(),
     name: text("name").notNull(),
@@ -26,5 +26,5 @@ export const files = pgTable(
     createdAt: tz("created_at").notNull().defaultNow(),
     updatedAt: tz("updated_at").notNull().defaultNow(),
   },
-  (t) => [index("files_organization_id_idx").on(t.organizationId, t.createdAt), uniqueIndex("files_key_idx").on(t.key), index("files_pending_idx").on(t.status, t.createdAt)],
+  (t) => [index("files_user_id_idx").on(t.userId, t.createdAt), uniqueIndex("files_key_idx").on(t.key), index("files_pending_idx").on(t.status, t.createdAt)],
 )

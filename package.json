@@ -18,6 +18,7 @@
     "db:migrate:prod": "pnpm --filter @workspace/db db:migrate:prod",
     "db:reset": "docker compose down -v postgres && pnpm bootstrap",
     "db:seed": "tsx tooling/scripts/seed.ts",
+    "db:export-workspaces": "tsx tooling/scripts/export-workspaces.ts",
     "db:studio": "pnpm --filter @workspace/db db:studio",
     "smoke": "node tooling/scripts/smoke.mjs --local",
     "smoke:prod": "node tooling/scripts/smoke.mjs --env-file apps/web/.env.production",
@@ -27,6 +28,7 @@
     "billing:sign": "tsx tooling/scripts/billing-sign.ts"
   },
   "devDependencies": {
+    "@fission-ai/openspec": "^2.1.1",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "happy-dom": "20.14.6",
