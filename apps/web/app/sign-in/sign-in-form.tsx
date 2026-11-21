@@ -14,7 +14,7 @@ export function SignInForm({ error, next, signup }: { error?: string; next?: str
   // Better Auth's callback error: an expired verification or reset link, a banned account (Google), or a failed Google sign-in.
   const alert = !error ? null : error === "EXPIRED_TOKEN" || error === "INVALID_TOKEN" || error === "TOKEN_EXPIRED" ? "auth.errorLinkExpired" : /banned/i.test(error) ? "auth.banned" : "auth.errorGoogle"
   return (
-    <Card className="gap-6 shadow-none">
+    <Card className="gap-6 rounded-panel border-border-strong bg-card p-5 shadow-hard-sm sm:p-8">
       <Wordmark size="header" className="self-center" />
       {alert && <Alert variant="destructive">{t(alert, { supportEmail: site.supportEmail })}</Alert>}
       <SignInPanel title="h1" initialVariant={signup ? "signup" : "code"} returnTo={to} onSignedIn={() => window.location.assign(to)} />

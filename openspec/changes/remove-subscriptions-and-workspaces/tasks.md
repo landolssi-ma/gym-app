@@ -15,7 +15,7 @@
 ## 3. Apply the Sage visual system
 
 - [x] 3.1 Replace shared UI tokens with Sage `#71866D`, Beige `#E8E5D9`, Ivory `#F8F7F2` and Charcoal `#292D29`; verify no fixed brand hex values outside the token source.
-- [ ] 3.2 Rework the sign-in, sign-up and gym-profile surfaces as a clear responsive two-area layout inspired by the reference, with one primary action and neutral fitness imagery; verify 1440, 1024, 768 and 390 layouts.
+- [x] 3.2 Rework the sign-in, sign-up and gym-profile surfaces as a clear responsive two-area layout inspired by the reference, with one primary action and neutral fitness imagery; verify 1440, 1024, 768 and 390 layouts.
 - [ ] 3.3 Rework the app shell, profile, security and settings surfaces with the same palette, typography, spacing, cards and controls; verify mobile navigation, focus states and no horizontal overflow.
 - [ ] 3.4 Rework public marketing surfaces that remain in scope so the removed pricing journey is absent and the Sage identity is consistent; verify public-path and metadata tests.
 
