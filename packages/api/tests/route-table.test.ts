@@ -48,6 +48,11 @@ async function request(key: string) {
 }
 
 describe("API route protection table", () => {
+  test("projects and billing routes are absent", () => {
+    const keys = routeKeys(createApi(() => fakeDeps()))
+    expect(keys.some((key) => key.includes("/api/projects") || key.includes("/api/billing") || key.includes("/api/organizations") || key.includes("/api/team"))).toBe(false)
+  })
+
   test("every public and signature exception is an exact registered route", () => {
     const keys = routeKeys(createApi(() => fakeDeps()))
     expect(keys.length).toBeGreaterThan(0)
