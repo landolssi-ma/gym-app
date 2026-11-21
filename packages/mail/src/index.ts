@@ -43,6 +43,18 @@ export function createMail(c: MailConfig) {
       if (offOrigin.length) throw new Error(`mail ${template}: links must be absolute URLs on APP_ORIGIN`)
       const content = render(template, data, c.brand)
       if (!c.apiKey) {
+        if (URL.canParse(c.apiUrl) && new URL(c.apiUrl).protocol === "http:") {
+          const res = await fetch(c.apiUrl, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ from: c.from, to: [to], reply_to: c.replyTo, ...content }),
+          })
+          if (!res.ok) {
+            log.error("mail_send_failed", { template, status: res.status })
+            throw new MailError(template, res.status)
+          }
+          return
+        }
         // Local dev without an email provider: everything a developer needs to finish the flow.
         const code = "code" in data ? String(data.code) : undefined
         log.info("mail_logged", { template, to, subject: content.subject, links, ...(code && { code }) })

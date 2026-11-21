@@ -78,6 +78,21 @@ describe("createMail().send", () => {
     expect(log.info).toHaveBeenCalledWith("mail_logged", expect.objectContaining({ template: "teamInvite", links: ["http://localhost:5173/team/accept/inv_1"] }))
   })
 
+  test("in local dev sends through an HTTP mail relay without a Resend key", async () => {
+    const sent = stubFetch(202)
+    await createMail({
+      ...config,
+      apiKey: "",
+      apiUrl: "http://127.0.0.1:8025/send",
+      appOrigin: "http://localhost:5173",
+    }).send("signInCode", "u@x.test", samples.signInCode)
+    const { target, init, body } = sent()
+    expect(target).toBe("http://127.0.0.1:8025/send")
+    expect(init.method).toBe("POST")
+    expect(new Headers(init.headers).get("content-type")).toBe("application/json")
+    expect(body).toMatchObject({ to: ["u@x.test"], subject: "34350105 is your Acme sign-in code" })
+  })
+
   test("without a key on a deployed (https) origin, creating the client is a configuration error", () => {
     expect(() => createMail({ ...config, apiKey: "" })).toThrow("RESEND_API_KEY")
   })

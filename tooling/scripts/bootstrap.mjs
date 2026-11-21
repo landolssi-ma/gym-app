@@ -18,6 +18,6 @@ if (/^BETTER_AUTH_SECRET=\s*$/m.test(content)) {
   console.log("generated BETTER_AUTH_SECRET")
 }
 
-run("docker compose up -d --wait postgres")
+run("docker compose up -d --wait postgres mailcatcher mail-relay")
 run("pnpm db:migrate")
 run("pnpm db:seed")

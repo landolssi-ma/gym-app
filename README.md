@@ -14,6 +14,8 @@ pnpm dev
 
 `pnpm bootstrap` creates `apps/web/.env` from `.env.example` (with a fresh `BETTER_AUTH_SECRET`), starts Postgres in Docker on port 5433, applies the migrations and seeds demo data. It is safe to run again. `pnpm dev` serves the app at `APP_ORIGIN` (http://localhost:5173 by default) and the Inngest dev server at http://localhost:8288. If port 5173 is taken, change `APP_ORIGIN` in `apps/web/.env` (for example to http://localhost:5174): the dev server follows it.
 
+Local emails are sent to MailCatcher: open http://localhost:1080. SMTP listens on port `1025` and the HTTP-to-SMTP relay on port `8025`.
+
 Sign in at `/sign-in` as one of the seeded people: `owner@example.com` (owner of a trialing and a paid workspace), `member@example.com` or `admin@example.com` (platform admin, `/admin`). The password is in [`tooling/scripts/seed.ts`](tooling/scripts/seed.ts), or use the email code: in development emails are not sent but logged to the `pnpm dev` output, code and links included.
 
 To try the funnel as a new customer, sign up with any email, answer the survey and pick a plan. Without Dodo keys the checkout cannot open; simulate the provider's webhook instead:

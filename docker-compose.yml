@@ -20,5 +20,24 @@ services:
       timeout: 3s
       retries: 30
 
+  mailcatcher:
+    image: sj26/mailcatcher:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:1080:1080"
+
+  mail-relay:
+    image: python:3.13-alpine
+    restart: unless-stopped
+    depends_on:
+      mailcatcher:
+        condition: service_started
+    command: ["python", "-u", "/relay.py"]
+    ports:
+      - "127.0.0.1:8025:8025"
+    volumes:
+      - ./tooling/scripts/mail-relay.py:/relay.py:ro
+
 volumes:
   postgres_data:
