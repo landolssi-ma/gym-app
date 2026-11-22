@@ -12,7 +12,8 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "notAvailableWhileImpersonating": "Not available while viewing as another user",
-    "homeLabel": "Home"
+    "homeLabel": "Home",
+    "save": "Save"
   },
   "errors": {
     "generic": "Something went wrong on our side. Try again in a moment.",
