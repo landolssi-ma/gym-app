@@ -67,12 +67,12 @@ function MacroCard({
 }) {
   return (
     <div className="flex flex-1 flex-col items-center gap-1 rounded-xl border border-border bg-card px-4 py-5 text-center shadow-sm">
-      <span className="text-3xl leading-none">{emoji}</span>
+      <span className="text-3xl leading-none" style={{ filter: "grayscale(1)" }}>{emoji}</span>
       <p className="mt-1 text-sm text-muted-foreground">{label}</p>
       {/* Very large number — matches mockup weight */}
       <div className="mt-1 flex items-baseline gap-0.5">
-        <span className="font-heading text-4xl font-bold leading-none">{value}</span>
-        <span className="font-heading text-2xl font-semibold leading-none text-muted-foreground"> g</span>
+        <span className="font-heading text-5xl font-bold leading-none">{value}</span>
+        <span className="font-heading text-3xl font-semibold leading-none text-muted-foreground"> g</span>
       </div>
       <span className="mt-0.5 text-xs text-muted-foreground">({pct}%)</span>
     </div>
@@ -110,7 +110,7 @@ function NeedsContent() {
 
           {/* Left col: title + subtitle + recalculate */}
           <div
-            className="flex flex-col justify-between gap-4 p-6 md:p-8"
+            className="flex flex-col gap-6 p-6 md:p-8"
             style={{ width: "14rem", minWidth: "11rem", flexShrink: 0 }}
           >
             <div className="space-y-2">
@@ -138,14 +138,14 @@ function NeedsContent() {
               value={data.bmr}
               unit={t("nutrition.bmrUnit")}
             />
-            <div className="h-16 w-px bg-border" />
+            <div className="h-20 w-px bg-border" />
             <StatCol
               Icon={ZapIcon}
               label={t("nutrition.tdeeLabel")}
               value={data.tdee}
               unit={t("nutrition.tdeeUnit")}
             />
-            <div className="h-16 w-px bg-border" />
+            <div className="h-20 w-px bg-border" />
             <StatCol
               Icon={TargetIcon}
               label={t("nutrition.caloricGoalLabel")}
@@ -204,7 +204,7 @@ function NeedsContent() {
 
             {/* Goal name + description */}
             <p className="mt-3 font-heading text-xl font-bold leading-tight">{goalInfo.name}</p>
-            <p className="mt-1 max-w-32 text-xs leading-relaxed text-muted-foreground">
+            <p className="mt-1 pr-14 text-xs leading-relaxed text-muted-foreground">
               {goalInfo.desc}
             </p>
 
