@@ -1,12 +1,10 @@
+import Image from "next/image"
 import Link from "next/link"
 
 import { t } from "@workspace/i18n"
 import { Button } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
-const PHONES = ["left", "right", "center"] as const
-
-// The phones show a neutral screen until the product supplies screenshots.
 export function Hero() {
   return (
     <section
@@ -77,71 +75,41 @@ export function Hero() {
           </div>
         </div>
         <div className="relative z-1 flex min-w-0 flex-[1_1_calc(var(--spacing)*95)] animate-reveal items-center justify-center motion-reduce:animate-none max-content:mt-3 max-content:w-full max-content:flex-none">
-          <div
-            className="group/fan relative mt-9 h-115 w-110 flex-none max-wide:scale-86 max-content:-mb-19.5 max-content:origin-top max-content:scale-80 max-fan:-mb-32.5 max-fan:scale-66"
-            aria-label={t("marketing.heroScreensLabel")}
-          >
-            {PHONES.map((position) => (
-              <a
-                href="#how-it-works"
-                key={position}
-                className={cn(
-                  "absolute top-1/2 left-1/2 z-2 -mt-43.5 -ml-[calc(var(--spacing)*20.625)] h-87 w-41.25",
-                  position === "left" &&
-                    "z-1 -translate-x-29.5 translate-y-2 scale-89 -rotate-9",
-                  position === "right" &&
-                    "z-1 translate-x-29.5 translate-y-2 scale-89 rotate-9",
-                  position === "center" && "z-3 -translate-y-3"
-                )}
-                aria-label={t("marketing.heroScreenLabel")}
-              >
-                <div
-                  className={cn(
-                    "h-full motion-reduce:animate-none",
-                    position === "left"
-                      ? "animate-float-slow group-hover/fan:animation-paused"
-                      : position === "right"
-                        ? "animate-float-slower group-hover/fan:animation-paused"
-                        : "animate-float"
-                  )}
-                >
-                  <div
-                    className={cn(
-                      "h-full rounded-device bg-forest p-1.5 shadow-[8px_9px_0_var(--pop)] transition-transform duration-620 ease-(--ease-out)",
-                      position === "left" &&
-                        "shadow-[8px_9px_0_var(--sky)] group-hover/fan:-translate-x-6.25 group-hover/fan:-translate-y-2 group-hover/fan:-rotate-5",
-                      position === "right" &&
-                        "shadow-[8px_9px_0_var(--blush)] group-hover/fan:translate-x-6.25 group-hover/fan:-translate-y-2 group-hover/fan:rotate-5"
-                    )}
-                  >
-                    <span
-                      className="absolute top-3 left-1/2 z-4 h-1.25 w-13.75 -translate-x-1/2 rounded-full bg-muted-foreground"
-                      aria-hidden="true"
-                    />
-                    <div className="flex h-full flex-col gap-2.5 overflow-hidden rounded-screen bg-card px-3.5 pt-8" aria-hidden="true">
-                      <div className="h-24 rounded-lg bg-secondary" />
-                      <div className="h-3 w-3/4 rounded-full bg-border" />
-                      <div className="h-3 w-full rounded-full bg-border" />
-                      <div className="h-3 w-2/3 rounded-full bg-border" />
-                      <div className="mt-2 h-9 rounded-lg bg-primary" />
-                    </div>
-                  </div>
-                </div>
-              </a>
-            ))}
-            <div className="absolute -top-2 -left-7.5 z-5 -rotate-9 rounded-lg border-2 border-border-strong bg-card px-4 py-3.25 shadow-[5px_5px_0_var(--butter)] [&_small]:block [&_small]:font-mono [&_small]:text-tiny [&_small]:leading-(--leading-natural) [&_small]:font-medium [&_small]:text-muted-foreground [&_span]:ml-2 [&_span]:text-compact [&_span]:font-bold [&_strong]:my-1 [&_strong]:inline-block [&_strong]:text-3xl [&_strong]:leading-normal [&_strong]:tracking-(--tracking-title) [&_strong]:text-brand-hover">
-              <small>{t("marketing.fanLiftLabel")}</small>
-              <strong>{t("marketing.fanLiftValue")}</strong>
-              <span>{t("marketing.fanLiftUnit")}</span>
-              <small>{t("marketing.fanLiftSource")}</small>
+          <div className="relative w-full max-w-lg">
+            {/* Decorative background blob */}
+            <div className="absolute inset-0 -z-1 rounded-3xl bg-beige" aria-hidden="true" />
+            {/* Leaf decorations */}
+            <svg viewBox="0 0 120 180" className="absolute -top-6 -right-4 -z-1 w-28 opacity-40 text-sage" fill="currentColor" aria-hidden="true">
+              <ellipse cx="60" cy="90" rx="30" ry="80" transform="rotate(-20 60 90)" />
+              <ellipse cx="60" cy="90" rx="15" ry="70" transform="rotate(-20 60 90)" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+            <svg viewBox="0 0 120 180" className="absolute -bottom-4 -left-6 -z-1 w-20 opacity-30 text-sage" fill="currentColor" aria-hidden="true">
+              <ellipse cx="60" cy="90" rx="28" ry="75" transform="rotate(15 60 90)" />
+            </svg>
+            {/* Hero photo */}
+            <Image
+              src="/hero-couple.png"
+              alt="Two athletes — a man and a woman — back to back, smiling"
+              width={890}
+              height={610}
+              priority
+              className="relative z-1 w-full rounded-2xl object-cover"
+            />
+            {/* "Stronger Together" overlay */}
+            <div className="absolute right-5 top-5 z-2 text-right" aria-hidden="true">
+              <p className="font-heading text-2xl italic font-bold leading-tight text-charcoal drop-shadow-sm">
+                Stronger<br />Together
+              </p>
             </div>
-            <div className="absolute -right-8.5 -bottom-10 z-5 rotate-4 rounded-lg border-2 border-border-strong bg-forest px-4 py-3.25 text-forest-foreground shadow-[6px_6px_0_var(--pop)]">
-              <strong className="text-title-lg tracking-(--tracking-stat) text-butter">
-                {t("marketing.fanSpeedValue")}
-              </strong>
-              <small className="mt-1 block font-heading text-caption leading-(--leading-natural) font-medium text-forest-foreground">
-                {t("marketing.fanSpeedLabel")}
-              </small>
+            {/* Stat badges */}
+            <div className="absolute -bottom-4 -left-4 z-2 -rotate-3 rounded-xl border-2 border-border-strong bg-card px-4 py-3 shadow-[4px_4px_0_var(--butter)]">
+              <small className="block font-mono text-tiny font-semibold uppercase tracking-widest text-muted-foreground">{t("marketing.fanLiftLabel")}</small>
+              <strong className="text-2xl font-bold tracking-tight text-brand-hover">{t("marketing.fanLiftValue")}</strong>
+              <span className="ml-1.5 text-sm font-semibold text-muted-foreground">{t("marketing.fanLiftUnit")}</span>
+            </div>
+            <div className="absolute -right-4 -bottom-4 z-2 rotate-2 rounded-xl border-2 border-border-strong bg-sage px-4 py-3 shadow-[4px_4px_0_var(--pop)]">
+              <strong className="text-2xl font-bold tracking-tight text-white">{t("marketing.fanSpeedValue")}</strong>
+              <small className="mt-0.5 block font-heading text-xs font-semibold text-white/80">{t("marketing.fanSpeedLabel")}</small>
             </div>
           </div>
         </div>
