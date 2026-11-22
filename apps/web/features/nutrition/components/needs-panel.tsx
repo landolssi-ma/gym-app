@@ -13,11 +13,11 @@ import { useNutritionNeeds } from "@/features/nutrition"
 import { ApiError } from "@/lib/api-fetch"
 
 const GOAL_INFO: Record<string, { name: string; desc: string }> = {
-  muscle_gain:        { name: "Muscle gain",          desc: "A moderate caloric surplus to build lean muscle over time." },
-  fat_loss:           { name: "Fat loss",              desc: "A moderate caloric deficit to reach your goal steadily." },
-  weight_loss:        { name: "Weight loss",           desc: "A caloric deficit to progressively lower body weight." },
-  maintenance:        { name: "Maintenance",           desc: "Matching your energy expenditure to stay at your current weight." },
-  body_recomposition: { name: "Body recomposition",   desc: "A slight deficit to lose fat while preserving muscle mass." },
+  muscle_gain:        { name: "Muscle gain",         desc: "A moderate caloric surplus to build lean muscle over time." },
+  fat_loss:           { name: "Fat loss",             desc: "A moderate caloric deficit to reach your goal steadily." },
+  weight_loss:        { name: "Weight loss",          desc: "A caloric deficit to progressively lower body weight." },
+  maintenance:        { name: "Maintenance",          desc: "Matching your energy expenditure to stay at your current weight." },
+  body_recomposition: { name: "Body recomposition",  desc: "A slight deficit to lose fat while preserving muscle mass." },
 }
 
 function macroPercent(grams: number, kcalPerG: number, total: number) {
@@ -37,14 +37,18 @@ function StatCol({
 }) {
   return (
     <div className="flex flex-col items-center gap-2 text-center">
+      {/* Square icon badge — matches mockup proportions */}
       <div
-        className="flex size-9 items-center justify-center rounded-full"
-        style={{ background: "color-mix(in srgb, var(--sage) 15%, var(--background))" }}
+        className="flex size-10 items-center justify-center rounded-xl"
+        style={{ background: "color-mix(in srgb, var(--sage) 18%, var(--background))" }}
       >
-        <Icon className="size-4 text-primary" />
+        <Icon className="size-5 text-primary" />
       </div>
-      <p className="max-w-24 text-xs leading-snug text-muted-foreground">{label}</p>
-      <span className="font-heading text-3xl font-bold tabular-nums">{value.toLocaleString()}</span>
+      <p className="max-w-20 text-xs leading-snug text-muted-foreground">{label}</p>
+      {/* Number — large, bold, heading font */}
+      <span className="font-heading text-4xl font-bold tabular-nums leading-none">
+        {value.toLocaleString()}
+      </span>
       <span className="text-xs text-muted-foreground">{unit}</span>
     </div>
   )
@@ -62,14 +66,15 @@ function MacroCard({
   pct: number
 }) {
   return (
-    <div className="flex flex-1 flex-col items-center gap-1.5 rounded-xl border border-border bg-card p-5 text-center">
-      <span className="text-2xl">{emoji}</span>
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <div className="flex items-baseline gap-0.5">
-        <span className="font-heading text-3xl font-bold">{value}</span>
-        <span className="font-heading text-lg font-semibold"> g</span>
+    <div className="flex flex-1 flex-col items-center gap-1 rounded-xl border border-border bg-card px-4 py-5 text-center shadow-sm">
+      <span className="text-3xl leading-none">{emoji}</span>
+      <p className="mt-1 text-sm text-muted-foreground">{label}</p>
+      {/* Very large number — matches mockup weight */}
+      <div className="mt-1 flex items-baseline gap-0.5">
+        <span className="font-heading text-4xl font-bold leading-none">{value}</span>
+        <span className="font-heading text-2xl font-semibold leading-none text-muted-foreground"> g</span>
       </div>
-      <span className="text-xs text-muted-foreground">({pct}%)</span>
+      <span className="mt-0.5 text-xs text-muted-foreground">({pct}%)</span>
     </div>
   )
 }
@@ -80,7 +85,7 @@ function NeedsContent() {
   if (isLoading) return <NeedsSkeleton />
   if (error instanceof ApiError && error.status === 404) {
     return (
-      <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border p-12 text-center">
+      <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border p-14 text-center">
         <div className="rounded-full bg-muted p-5 text-5xl">🥗</div>
         <p className="text-sm text-muted-foreground">{t("nutrition.completeProfilePrompt")}</p>
         <Button variant="outline" size="sm" asChild>
@@ -98,11 +103,16 @@ function NeedsContent() {
 
   return (
     <div className="space-y-6">
-      {/* ── Hero card ─────────────────────────────────────────── */}
-      <div className="overflow-hidden rounded-2xl border border-border bg-card">
+
+      {/* ── Hero card ─────────────────────────────────────────────────────── */}
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         <div className="flex">
-          {/* Left: title + subtitle + recalculate */}
-          <div className="flex flex-col justify-between gap-4 p-6 md:p-8" style={{ width: "15rem", minWidth: "12rem" }}>
+
+          {/* Left col: title + subtitle + recalculate */}
+          <div
+            className="flex flex-col justify-between gap-4 p-6 md:p-8"
+            style={{ width: "14rem", minWidth: "11rem", flexShrink: 0 }}
+          >
             <div className="space-y-2">
               <h3 className="font-heading text-lg font-bold leading-snug">
                 {t("nutrition.needsHeading")}
@@ -117,25 +127,25 @@ function NeedsContent() {
             </Button>
           </div>
 
-          {/* Divider */}
+          {/* Full-height vertical rule */}
           <div className="w-px self-stretch bg-border" />
 
-          {/* Middle: 3 stat columns */}
-          <div className="flex flex-1 items-center justify-around px-4 py-8">
+          {/* Middle col: 3 stat columns with hairline separators */}
+          <div className="flex flex-1 items-center justify-around px-4 py-10">
             <StatCol
               Icon={FlameIcon}
               label={t("nutrition.bmrLabel")}
               value={data.bmr}
               unit={t("nutrition.bmrUnit")}
             />
-            <div className="h-14 w-px bg-border" />
+            <div className="h-16 w-px bg-border" />
             <StatCol
               Icon={ZapIcon}
               label={t("nutrition.tdeeLabel")}
               value={data.tdee}
               unit={t("nutrition.tdeeUnit")}
             />
-            <div className="h-14 w-px bg-border" />
+            <div className="h-16 w-px bg-border" />
             <StatCol
               Icon={TargetIcon}
               label={t("nutrition.caloricGoalLabel")}
@@ -144,23 +154,30 @@ function NeedsContent() {
             />
           </div>
 
-          {/* Right: decorative food image */}
+          {/* Right col: decorative food image, full card height */}
           <div
-            className="hidden shrink-0 md:block"
-            style={{ width: "9rem", background: "color-mix(in srgb, var(--beige) 50%, var(--background))" }}
+            className="hidden shrink-0 md:flex md:items-center md:justify-center"
+            style={{
+              width: "9rem",
+              background: "color-mix(in srgb, var(--beige) 55%, var(--background))",
+              fontSize: "5rem",
+              lineHeight: 1,
+            }}
           >
-            <div className="flex h-full w-full items-center justify-center text-7xl">🥗</div>
+            🥗
           </div>
+
         </div>
       </div>
 
-      {/* ── Macros heading ─────────────────────────────────────── */}
+      {/* ── Macros section ───────────────────────────────────────────────── */}
       <div>
         <h4 className="mb-4 font-heading text-base font-semibold">
           {t("nutrition.macrosHeading")}
         </h4>
 
         <div className="flex flex-col gap-4 lg:flex-row">
+
           {/* 3 macro tiles */}
           <div className="flex flex-1 gap-4">
             <MacroCard emoji="💪" label={t("nutrition.proteinLabel")} value={data.proteinG} pct={pPct} />
@@ -168,12 +185,15 @@ function NeedsContent() {
             <MacroCard emoji="💧" label={t("nutrition.fatLabel")}     value={data.fatG}     pct={fPct} />
           </div>
 
-          {/* Goal card */}
-          <div className="relative overflow-hidden rounded-xl border border-border bg-card p-4 lg:w-52 lg:shrink-0">
+          {/* Goal card — right of macros row */}
+          <div
+            className="relative overflow-hidden rounded-xl border border-border bg-card p-4 shadow-sm lg:w-52 lg:shrink-0"
+          >
+            {/* Header row */}
             <div className="flex items-center gap-2">
               <div
                 className="flex size-7 items-center justify-center rounded-lg"
-                style={{ background: "color-mix(in srgb, var(--sage) 15%, var(--background))" }}
+                style={{ background: "color-mix(in srgb, var(--sage) 18%, var(--background))" }}
               >
                 <ChartColumnIcon className="size-4 text-primary" />
               </div>
@@ -181,28 +201,42 @@ function NeedsContent() {
                 {t("nutrition.yourGoalHeading")}
               </span>
             </div>
-            <p className="mt-2 font-heading text-xl font-bold leading-tight">{goalInfo.name}</p>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{goalInfo.desc}</p>
-            <TargetIcon className="absolute bottom-2 right-2 size-12 opacity-10" />
+
+            {/* Goal name + description */}
+            <p className="mt-3 font-heading text-xl font-bold leading-tight">{goalInfo.name}</p>
+            <p className="mt-1 max-w-32 text-xs leading-relaxed text-muted-foreground">
+              {goalInfo.desc}
+            </p>
+
+            {/* Decorative target — vertically centred on the right */}
+            <TargetIcon className="absolute right-3 top-1/2 size-14 -translate-y-1/2 opacity-10" />
           </div>
+
         </div>
       </div>
 
-      {/* ── Tip card ───────────────────────────────────────────── */}
-      <div
-        className="flex items-center justify-between gap-4 rounded-xl border border-border bg-card px-5 py-4"
-      >
+      {/* ── Tip card ─────────────────────────────────────────────────────── */}
+      <div className="flex items-center justify-between gap-4 rounded-xl border border-border bg-card px-5 py-4 shadow-sm">
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 text-xl">💡</span>
+          {/* Bulb icon in a soft badge */}
+          <div
+            className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl text-lg"
+            style={{ background: "color-mix(in srgb, var(--butter) 40%, var(--background))" }}
+          >
+            💡
+          </div>
           <div>
             <p className="text-sm font-semibold">{t("nutrition.tipHeading")}</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">{t("nutrition.dailyTip")}</p>
+            <p className="mt-0.5 max-w-sm text-xs leading-relaxed text-muted-foreground">
+              {t("nutrition.dailyTip")}
+            </p>
           </div>
         </div>
-        <Button size="sm" asChild className="shrink-0">
+        <Button size="sm" className="shrink-0" asChild>
           <Link href="/settings/profile">{t("nutrition.viewMore")} →</Link>
         </Button>
       </div>
+
     </div>
   )
 }
@@ -210,12 +244,12 @@ function NeedsContent() {
 function NeedsSkeleton() {
   return (
     <div className="space-y-6">
-      <Skeleton className="h-44 rounded-2xl" />
+      <Skeleton className="h-48 rounded-2xl" />
       <div className="flex gap-4">
-        <Skeleton className="h-32 flex-1 rounded-xl" />
-        <Skeleton className="h-32 flex-1 rounded-xl" />
-        <Skeleton className="h-32 flex-1 rounded-xl" />
-        <Skeleton className="h-32 w-52 rounded-xl" />
+        <Skeleton className="h-36 flex-1 rounded-xl" />
+        <Skeleton className="h-36 flex-1 rounded-xl" />
+        <Skeleton className="h-36 flex-1 rounded-xl" />
+        <Skeleton className="h-36 w-52 shrink-0 rounded-xl" />
       </div>
       <Skeleton className="h-16 rounded-xl" />
     </div>
