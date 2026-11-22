@@ -42,5 +42,5 @@ export const needs = new Hono<GuardEnv>()
     const fatG = Math.round((tdee * 0.30) / 9)
     const carbsG = Math.round((caloricGoal - proteinG * 4 - fatG * 9) / 4)
 
-    return c.json({ bmr: Math.round(bmr), tdee, caloricGoal, proteinG, carbsG: Math.max(0, carbsG), fatG })
+    return c.json({ bmr: Math.round(bmr), tdee, caloricGoal, proteinG, carbsG: Math.max(0, carbsG), fatG, goal })
   })

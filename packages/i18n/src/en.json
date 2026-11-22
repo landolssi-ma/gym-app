@@ -478,9 +478,9 @@
     "needsHeading": "Your daily needs",
     "needsBody": "Estimated from your gym profile using the Mifflin–St Jeor formula.",
     "needsEstimate": "These are estimates. Recalculate after updating your profile.",
-    "bmrLabel": "BMR",
+    "bmrLabel": "Basal metabolic rate (BMR)",
     "bmrUnit": "kcal / day",
-    "tdeeLabel": "TDEE",
+    "tdeeLabel": "Energy expenditure (TDEE)",
     "tdeeUnit": "kcal / day",
     "caloricGoalLabel": "Caloric goal",
     "caloricGoalUnit": "kcal / day",
@@ -529,10 +529,13 @@
     "protein": "Protein",
     "carbs": "Carbs",
     "fat": "Fat",
-    "macrosHeading": "Your daily macros",
+    "macrosHeading": "Your recommended daily macros",
     "yourGoalHeading": "Your goal",
     "ofCalories": "of calories",
-    "dailyTip": "Stay hydrated and prioritize nutrient-dense, unprocessed foods to support your body composition goals."
+    "dailyTip": "Stay hydrated and prioritize nutrient-dense, unprocessed foods to support your body composition goals.",
+    "tipHeading": "FitFlow tip",
+    "viewMore": "View more",
+    "calculatorHeading": "Nutritional calculator"
   },
   "projects": {
     "title": "Projects",
