@@ -35,5 +35,6 @@ export {
 export { MenuIcon } from "lucide-react"
 export { ZapIcon, ArrowLeftIcon } from "lucide-react"
 export { RefreshCwIcon } from "lucide-react"
+export { TargetIcon, CalendarDaysIcon } from "lucide-react"
 export { BadgeCheckIcon, BookOpenIcon, ChartColumnIcon, HandshakeIcon, LeafIcon, ListOrderedIcon, MessageSquareQuoteIcon, NewspaperIcon, PanelTopIcon, ShoppingBagIcon } from "lucide-react"
 export { CreditCardIcon, FolderIcon, LogOutIcon, SettingsIcon, ShieldIcon, UserIcon } from "lucide-react"

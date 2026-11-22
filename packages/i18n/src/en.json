@@ -528,7 +528,11 @@
     "calories": "Calories",
     "protein": "Protein",
     "carbs": "Carbs",
-    "fat": "Fat"
+    "fat": "Fat",
+    "macrosHeading": "Your daily macros",
+    "yourGoalHeading": "Your goal",
+    "ofCalories": "of calories",
+    "dailyTip": "Stay hydrated and prioritize nutrient-dense, unprocessed foods to support your body composition goals."
   },
   "projects": {
     "title": "Projects",
