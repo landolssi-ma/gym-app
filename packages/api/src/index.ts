@@ -18,6 +18,7 @@ import { filesRoutes } from "./routes/files"
 import { health } from "./routes/health"
 import { me } from "./routes/me"
 import { gymProfile } from "./routes/gym-profile"
+import { nutrition } from "./routes/nutrition"
 
 export { hasDuplicateAuthCookies } from "./middleware"
 
@@ -116,6 +117,7 @@ export function createApi(makeDeps: () => Deps) {
     .route("/api/me", me)
     .route("/api/files", filesRoutes)
     .route("/api/gym-profile", gymProfile)
+    .route("/api/nutrition", nutrition)
     .route("/api/admin", admin)
     // Signed by Inngest, so exactOrigin exempts it.
     .on(["GET", "PUT", "POST"], "/api/inngest", (c) => c.var.deps.jobs.serve(jobFunctions(c.var.deps))(c))

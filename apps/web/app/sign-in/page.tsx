@@ -1,3 +1,4 @@
+import type React from "react"
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 
@@ -16,7 +17,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
   // Reachable anonymously, so an already signed-in visitor goes straight on.
   if (await isSignedInFresh()) redirect(validNext ?? "/post-sign-in")
   return (
-    <main className="grid min-h-dvh bg-ivory md:grid-cols-[minmax(18rem,0.8fr)_minmax(28rem,1.2fr)]">
+    <main className="grid min-h-dvh bg-ivory md:grid-cols-[var(--sign-in-cols)]" style={{ "--sign-in-cols": "minmax(18rem,0.8fr) minmax(28rem,1.2fr)" } as React.CSSProperties}>
       <section className="hidden flex-col justify-between bg-beige p-10 md:flex lg:p-14">
         <div>
           <p className="font-heading text-2xl font-bold text-charcoal">FitAccount</p>
