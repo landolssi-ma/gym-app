@@ -387,7 +387,8 @@
     "sessions": "Sessions per week",
     "optional": "optional",
     "finish": "Save profile",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "saved": "Profile saved"
   },
   "files": {
     "choose": "Upload image",

@@ -10,7 +10,7 @@ import { ShellHeaderActions } from "./shell-header-actions"
 export function AppShell({ title, subtitle, actions, children, className }: { title: string; subtitle?: string; actions?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
     <>
-      <header className="sticky top-0 z-10 flex min-h-16 items-center justify-between gap-4 border-b border-border bg-card px-5 py-3 lg:px-6">
+      <header className="sticky top-0 z-10 flex min-h-16 items-center justify-between gap-4 border-b border-border bg-ivory px-5 py-3 lg:px-6">
         <div className="min-w-0">
           <h1 className="font-heading text-base font-bold">{title}</h1>
           {subtitle && <p className="mt-0.5 font-mono text-xs text-muted-foreground">{subtitle}</p>}
