@@ -10,7 +10,7 @@ export default function OnboardingPage() {
   return (
     <main className="grid min-h-dvh bg-ivory md:grid-cols-[minmax(16rem,0.7fr)_minmax(32rem,1.3fr)]">
       <section className="hidden flex-col justify-between bg-beige p-10 md:flex lg:p-14">
-        <p className="font-heading text-2xl font-bold text-charcoal">FitAccount</p>
+        <p className="font-heading text-2xl font-bold text-charcoal">FitTrack</p>
         <div className="flex flex-col gap-6">
           <div className="flex size-20 items-center justify-center rounded-2xl bg-sage/15">
             <svg viewBox="0 0 48 48" className="size-11 text-sage" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

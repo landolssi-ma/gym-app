@@ -1,6 +1,6 @@
 // The one place a product sets its identity: pages, emails, metadata and cookies read it from here.
 export const site = {
-  name: "Acme",
+  name: "FitTrack",
   // Absolute URLs are built from APP_ORIGIN; emails need a raster image (most clients drop SVG).
   logoPath: "/logo.png",
   supportEmail: "support@example.com",

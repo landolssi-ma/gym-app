@@ -150,18 +150,26 @@ export function Hero() {
         <span className="font-mono text-caption leading-(--leading-natural) font-medium tracking-(--tracking-caption) text-muted-foreground uppercase max-compact:w-full max-compact:text-center">
           {t("marketing.stripLabel")}
         </span>
-        <span className="inline-flex items-center gap-2 rounded-full border-(length:--border-width-fine) border-border-strong px-3.5 py-1.75 text-compact font-bold shadow-[2px_2px_0_var(--pop)] nth-of-type-3:shadow-[2px_2px_0_var(--sky)] nth-of-type-4:shadow-[2px_2px_0_var(--butter)] max-compact:px-2.5">
-          <span aria-hidden="true">♧</span>
-          {t("marketing.strip1")}
-        </span>
-        <span className="inline-flex items-center gap-2 rounded-full border-(length:--border-width-fine) border-border-strong px-3.5 py-1.75 text-compact font-bold shadow-[2px_2px_0_var(--pop)] nth-of-type-3:shadow-[2px_2px_0_var(--sky)] nth-of-type-4:shadow-[2px_2px_0_var(--butter)] max-compact:px-2.5">
-          <span aria-hidden="true">&lt;/&gt;</span>
-          {t("marketing.strip2")}
-        </span>
-        <span className="inline-flex items-center gap-2 rounded-full border-(length:--border-width-fine) border-border-strong px-3.5 py-1.75 text-compact font-bold shadow-[2px_2px_0_var(--pop)] nth-of-type-3:shadow-[2px_2px_0_var(--sky)] nth-of-type-4:shadow-[2px_2px_0_var(--butter)] max-compact:px-2.5">
-          <span aria-hidden="true">↗</span>
-          {t("marketing.strip3")}
-        </span>
+        {([
+          { key: "strip1", icon: "⊛" },
+          { key: "strip2", icon: "✦" },
+          { key: "strip3", icon: "△" },
+          { key: "strip4", icon: "◎" },
+        ] as const).map(({ key, icon }, i) => (
+          <span
+            key={key}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full border-(length:--border-width-fine) border-border-strong px-3.5 py-1.75 text-compact font-bold max-compact:px-2.5",
+              i === 0 && "shadow-[2px_2px_0_var(--pop)]",
+              i === 1 && "shadow-[2px_2px_0_var(--sky)]",
+              i === 2 && "shadow-[2px_2px_0_var(--butter)]",
+              i === 3 && "shadow-[2px_2px_0_var(--blush)]",
+            )}
+          >
+            <span aria-hidden="true">{icon}</span>
+            {t(`marketing.${key}` as Parameters<typeof t>[0])}
+          </span>
+        ))}
       </div>
     </section>
   )
