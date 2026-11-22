@@ -90,8 +90,8 @@ export function Hero() {
             <Image
               src="/hero-couple.png"
               alt="Two athletes — a man and a woman — back to back, smiling"
-              width={890}
-              height={610}
+              width={829}
+              height={560}
               priority
               className="relative z-1 w-full rounded-2xl object-cover"
             />
