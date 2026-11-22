@@ -95,12 +95,6 @@ export function Hero() {
               priority
               className="relative z-1 w-full rounded-2xl object-cover"
             />
-            {/* "Stronger Together" overlay */}
-            <div className="absolute right-5 top-5 z-2 text-right" aria-hidden="true">
-              <p className="font-heading text-2xl italic font-bold leading-tight text-charcoal drop-shadow-sm">
-                Stronger<br />Together
-              </p>
-            </div>
             {/* Stat badges */}
             <div className="absolute -bottom-4 -left-4 z-2 -rotate-3 rounded-xl border-2 border-border-strong bg-card px-4 py-3 shadow-[4px_4px_0_var(--butter)]">
               <small className="block font-mono text-tiny font-semibold uppercase tracking-widest text-muted-foreground">{t("marketing.fanLiftLabel")}</small>
